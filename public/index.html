@@ -1,0 +1,1564 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NewGram — Visual Stories & Moments</title>
+  <meta name="description" content="A clean, minimalist visual social platform for photos, stories, and conversations.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=12.0">
+</head>
+<body>
+  <div class="app-wrapper">
+    <!-- PLACEHOLDER RAIL: Keeps layout stationary and jitter-free on hover -->
+    <div class="sidebar-placeholder-rail" aria-hidden="true"></div>
+
+    <!-- SLEEK ICON NAVIGATION RAIL (EXPANDS ON HOVER WITHOUT REFLOWING PAGE) -->
+    <aside class="app-sidebar icon-rail" aria-label="Main Navigation">
+      <div class="sidebar-top">
+        <div class="brand-logo" id="brand-home-link" title="NewGram">
+          <div class="brand-n-badge">
+            <svg class="brand-n-svg" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="32" height="32" rx="9" fill="url(#ngLogoGrad)" />
+              <path d="M8.5 23.5V8.5H12L20 19.5V8.5H23.5V23.5H20L12 12.5V23.5H8.5Z" fill="var(--bg-canvas)" />
+              <defs>
+                <linearGradient id="ngLogoGrad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="var(--text-primary)" />
+                  <stop offset="100%" stop-color="var(--text-primary)" stop-opacity="0.92" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <span class="brand-text">NewGram</span>
+        </div>
+
+        <nav class="sidebar-nav">
+          <button class="nav-btn active" id="nav-feed" data-view="feed" title="Home Feed">
+            <div class="nav-icon-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5a1 1 0 0 1-1-1v-5a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/>
+              </svg>
+            </div>
+            <span class="nav-label">Home</span>
+          </button>
+
+          <button class="nav-btn" id="nav-explore" data-view="explore" title="Search & Explore">
+            <div class="nav-icon-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+            </div>
+            <span class="nav-label">Search</span>
+          </button>
+
+          <button class="nav-btn" id="nav-reels" data-view="reels" title="Reels & Moments">
+            <div class="nav-icon-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="2" width="20" height="20" rx="4"/>
+                <path d="M7 2v20M17 2v20M2 12h20M2 7h5M2 17h5M17 7h5M17 17h5"/>
+                <polygon points="10 9 15 12 10 15 10 9" fill="currentColor"/>
+              </svg>
+            </div>
+            <span class="nav-label">Reels</span>
+          </button>
+
+          <button class="nav-btn" id="nav-messages" data-view="messages" title="Messages">
+            <div class="nav-icon-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+              </svg>
+              <span class="notif-badge" id="chat-unread-badge">2</span>
+            </div>
+            <span class="nav-label">Messages</span>
+          </button>
+
+          <button class="nav-btn" id="nav-notifications" data-view="notifications" title="Notifications">
+            <div class="nav-icon-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+              <span class="notif-badge hidden" id="unread-count">0</span>
+            </div>
+            <span class="nav-label">Notifications</span>
+          </button>
+
+          <button class="nav-btn" id="btn-open-create-modal" title="Create">
+            <div class="nav-icon-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="5" ry="5"/>
+                <line x1="12" y1="8" x2="12" y2="16"/>
+                <line x1="8" y1="12" x2="16" y2="12"/>
+              </svg>
+            </div>
+            <span class="nav-label">Create</span>
+          </button>
+
+          <button class="nav-btn nav-btn-profile" id="nav-profile" data-view="profile" title="Profile">
+            <div class="nav-icon-wrap">
+              <img src="" alt="Profile" class="nav-avatar-img" id="sidebar-user-avatar">
+            </div>
+            <span class="nav-label">Profile</span>
+          </button>
+        </nav>
+      </div>
+
+      <div class="sidebar-bottom">
+        <!-- MORE MENU POPOVER (SAVED, THEME TOGGLE, LOGIN/LOGOUT) -->
+        <div class="more-menu-popover hidden" id="more-menu-popover" role="menu" aria-label="More Options">
+          <!-- 0. SETTINGS -->
+          <button class="more-popover-item" id="more-item-settings" data-view="settings" role="menuitem">
+            <div class="more-popover-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+              </svg>
+            </div>
+            <span class="more-popover-label">Settings</span>
+          </button>
+
+          <!-- 1. SAVED -->
+          <button class="more-popover-item" id="more-item-saved" data-view="saved" role="menuitem">
+            <div class="more-popover-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+              </svg>
+            </div>
+            <span class="more-popover-label">Saved</span>
+          </button>
+
+          <div class="more-popover-divider"></div>
+
+          <!-- 3. ADMIN DASHBOARD (HIDDEN UNTIL ADMIN LOGS IN) -->
+          <a href="/admin" class="more-popover-item hidden" id="more-item-admin" role="menuitem" target="_blank" title="Open Database & Admin Control Center">
+            <div class="more-popover-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                <line x1="8" y1="21" x2="16" y2="21"></line>
+                <line x1="12" y1="17" x2="12" y2="21"></line>
+              </svg>
+            </div>
+            <span class="more-popover-label">Admin Console</span>
+          </a>
+
+          <!-- 4. LOGIN / LOGOUT -->
+          <button class="more-popover-item" id="more-item-auth" role="menuitem">
+            <div class="more-popover-icon">
+              <svg class="auth-icon-login" id="more-auth-icon-login" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                <polyline points="10 17 15 12 10 7"></polyline>
+                <line x1="15" y1="12" x2="3" y2="12"></line>
+              </svg>
+              <svg class="auth-icon-logout hidden" id="more-auth-icon-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+              </svg>
+            </div>
+            <span class="more-popover-label" id="more-auth-label">Log In</span>
+          </button>
+        </div>
+
+        <!-- MORE TRIGGER BUTTON -->
+        <button class="nav-btn" id="btn-menu-more" title="More" aria-haspopup="true" aria-expanded="false">
+          <div class="nav-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </div>
+          <span class="nav-label">More</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN APP CANVAS -->
+    <main class="main-canvas" id="main-canvas">
+
+      <!-- MOBILE HEADER BAR -->
+      <header class="mobile-top-header">
+        <div class="mobile-brand">NewGram</div>
+        <div class="mobile-actions">
+          <button class="mobile-btn" id="mobile-create-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22">
+              <rect x="3" y="3" width="18" height="18" rx="5" ry="5"/>
+              <line x1="12" y1="8" x2="12" y2="16"/>
+              <line x1="8" y1="12" x2="16" y2="12"/>
+            </svg>
+          </button>
+          <button class="mobile-btn" id="mobile-chat-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22">
+              <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+            </svg>
+          </button>
+          <button class="mobile-btn" id="mobile-notif-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- VIEW 1: HOME FEED (VISUAL INSTAGRAM STYLE) -->
+      <section class="view-panel active" id="view-feed">
+        <div class="feed-layout-inner">
+          
+          <div class="feed-center-column">
+
+            <!-- STORIES CAROUSEL BAR WITH SLIDE CONTROLS (IMAGE 1) -->
+            <div class="stories-strip-container">
+              <button class="stories-scroll-btn btn-stories-prev hidden" id="btn-stories-prev" aria-label="Previous Stories">‹</button>
+              <div class="stories-strip" id="stories-strip">
+                <!-- Add Your Story Bubble -->
+                <div class="story-bubble add-story" id="btn-add-story">
+                  <div class="story-avatar-wrap">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" alt="Your Story" class="story-avatar-img" id="my-story-avatar">
+                    <span class="plus-icon">+</span>
+                  </div>
+                  <span class="story-username">Your story</span>
+                </div>
+                <!-- Other Users Stories populated via JS -->
+              </div>
+              <button class="stories-scroll-btn btn-stories-next" id="btn-stories-next" aria-label="Next Stories">›</button>
+            </div>
+
+            <!-- COMPACT IN-FEED COMPOSER (TWITTER + THREADS + INSTAGRAM) -->
+            <div class="compact-composer-card">
+              <div class="composer-line">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" alt="Me" class="composer-mini-avatar" id="infeed-composer-avatar">
+                <input type="text" id="infeed-quick-text" placeholder="Share a photo or thought... (X + Instagram style)">
+              </div>
+              <div class="composer-options-row">
+                <div class="composer-quick-btns">
+                  <button type="button" class="btn-composer-opt" id="btn-infeed-add-photo" title="Attach visual">
+                    📷 <span>Photo</span>
+                  </button>
+                  <button type="button" class="btn-composer-opt" id="btn-infeed-add-music" title="Attach audio tag">
+                    🎵 <span id="infeed-music-label">Audio</span>
+                  </button>
+                  <button type="button" class="btn-composer-opt" id="btn-infeed-add-tag" title="Add tags">
+                    🏷️ <span>#Tags</span>
+                  </button>
+                </div>
+                <button class="btn-post-pill" id="btn-infeed-post">Post</button>
+              </div>
+              <!-- Expandable inputs -->
+              <div class="composer-expandable-row hidden" id="composer-expandable-row">
+                <input type="url" id="infeed-photo-url" placeholder="Photo URL (optional, or pick from presets)">
+                <input type="text" id="infeed-music-tag" placeholder="Music tag (e.g. 🎵 Tycho • Awake)">
+              </div>
+            </div>
+
+            <!-- FEED FILTER TOGGLE BAR -->
+            <div class="feed-tabs-bar">
+              <button class="feed-subtab active" data-feed="all" id="subtab-all">For You</button>
+              <button class="feed-subtab" data-feed="following" id="subtab-following">Following</button>
+              <span class="tag-filter-indicator hidden" id="tag-filter-indicator">
+                <span id="active-tag-text">#tag</span>
+                <button id="btn-remove-tag-filter">×</button>
+              </span>
+            </div>
+
+            <!-- POSTS CARDS STREAM -->
+            <div class="visual-feed" id="posts-container">
+              <div class="loading-state">
+                <div class="spinner"></div>
+                <p>Loading moments...</p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- RIGHT ASIDE: RECOMMENDATIONS & PERSONAS (IMAGE 1 ARCHITECTURE) -->
+          <aside class="feed-right-column">
+            <!-- CURRENT USER MINI PROFILE (IMAGE 1 HEADER) -->
+            <div class="current-user-banner">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" alt="User" class="cur-avatar" id="aside-user-avatar">
+              <div class="cur-meta">
+                <span class="cur-handle" id="aside-user-handle">@elena_visuals</span>
+                <span class="cur-name" id="aside-user-name">Elena Rostova</span>
+              </div>
+              <button class="btn-text-action" id="btn-aside-switch">Switch</button>
+            </div>
+
+            <!-- BENTO DISCOVERY HIGHLIGHT (HOME FEED INTEGRATION) -->
+            <div class="aside-block bento-feed-highlight">
+              <div class="bento-badge-row">
+                <span class="bento-pill-badge accent-gradient">✨ Bento Hub</span>
+                <span class="bento-live-indicator"><span class="pulse-dot"></span> Active</span>
+              </div>
+              <div class="bento-highlight-content">
+                <h4 class="bento-highlight-title">#CyberpunkReflections</h4>
+                <p class="bento-highlight-desc">This week's community quest is heating up with 480+ entries.</p>
+                <div class="bento-highlight-action">
+                  <button class="bento-btn-glass-sm" onclick="switchView('explore')">Explore Bento Hub ↗</button>
+                  <span class="bento-stat-chip">Quest #04</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- SUGGESTIONS FOR YOU (IMAGE 1) -->
+
+            <div class="aside-block">
+              <div class="aside-block-header">
+                <span class="aside-header-title">Suggested for you</span>
+                <button class="btn-text-action muted" id="btn-see-all-suggestions">See all</button>
+              </div>
+              <div class="suggestions-list" id="who-to-follow-list">
+                <!-- Injected via app.js -->
+              </div>
+            </div>
+
+            <!-- PERSONA SWITCHER QUICK SELECT -->
+            <div class="aside-block compact-persona-block">
+              <div class="aside-block-header">
+                <span class="aside-header-title">Switch Persona</span>
+                <button class="btn-text-action" id="btn-create-persona-link">+ New</button>
+              </div>
+              <p class="aside-hint">Test interactions like a multi-user app:</p>
+              <div class="aside-persona-list" id="persona-list">
+                <!-- Injected via app.js -->
+              </div>
+            </div>
+
+            <!-- FOOTER LINKS (IMAGE 1 STYLE) -->
+            <div class="meta-footer-links">
+              <p class="footer-nav-links">About · Help · Press · API · Jobs · Privacy · Terms · Locations · Language</p>
+              <div class="aside-footer-brand">
+                <span>© 2026 NEWGRAM FROM META / STUDIOS</span>
+                <button class="btn-text danger" id="btn-reset-db">Reset Demo</button>
+              </div>
+            </div>
+          </aside>
+
+        </div>
+      </section>
+
+      <!-- VIEW 2: EXPLORE & SEARCH GRID -->
+      <section class="view-panel hidden" id="view-explore">
+        <div class="explore-wrapper">
+          <div class="explore-search-header">
+            <div class="search-input-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+              <input type="text" id="explore-search-input" placeholder="Search creators, hashtags (#monochrome, #design), or locations...">
+              <button class="btn-clear-search hidden" id="btn-clear-search">✕</button>
+            </div>
+
+            <div class="trending-tags-scroller" id="explore-tags-cloud">
+              <!-- Injected via app.js -->
+            </div>
+          </div>
+
+          <!-- BENTO GRID DISCOVERY HUB -->
+          <div class="bento-explore-hub" id="bento-explore-hub">
+            <!-- Bento 1: Creator Spotlight -->
+            <div class="bento-card bento-spotlight">
+              <div class="bento-badge-row">
+                <span class="bento-pill-badge accent-purple">✨ Creator Spotlight</span>
+                <span class="bento-live-indicator"><span class="pulse-dot"></span> Live</span>
+              </div>
+              <div class="bento-spotlight-author">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" alt="Elena" class="bento-author-avatar">
+                <div>
+                  <h4 class="bento-title">Elena Rostova</h4>
+                  <p class="bento-sub">@elena_rostova • Architecture</p>
+                </div>
+              </div>
+              <p class="bento-desc">Capturing brutalist concrete geometry and shadows across Europe.</p>
+              <div class="bento-action-row">
+                <button class="bento-btn-glass" onclick="switchView('profile', { userId: 1 })">View Studio Profile ↗</button>
+                <span class="bento-stat-chip">🔥 14.8k impressions</span>
+              </div>
+            </div>
+
+            <!-- Bento 2: Daily Dialogue Poll -->
+            <div class="bento-card bento-question">
+              <div class="bento-badge-row">
+                <span class="bento-pill-badge accent-cyan">💡 Daily Dialogue</span>
+                <span class="bento-stat-chip">Community Pulse</span>
+              </div>
+              <h4 class="bento-question-title">"What prime focal length defines your aesthetic?"</h4>
+              <div class="bento-poll-options">
+                <button class="bento-poll-btn" onclick="selectBentoPoll(this)">
+                  <span>35mm (Human Eye)</span>
+                  <span class="poll-percent">48%</span>
+                </button>
+                <button class="bento-poll-btn" onclick="selectBentoPoll(this)">
+                  <span>85mm (Cinematic Depth)</span>
+                  <span class="poll-percent">34%</span>
+                </button>
+                <button class="bento-poll-btn" onclick="selectBentoPoll(this)">
+                  <span>24mm (Vast Urban)</span>
+                  <span class="poll-percent">18%</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Bento 3: Weekly Challenge -->
+            <div class="bento-card bento-challenge">
+              <div class="bento-badge-row">
+                <span class="bento-pill-badge accent-gradient">🏆 Weekly Quest</span>
+                <span class="bento-stat-chip">3 days left</span>
+              </div>
+              <div class="bento-challenge-body">
+                <span class="bento-challenge-icon">🌌</span>
+                <div>
+                  <h4 class="bento-challenge-title">#CyberpunkReflections</h4>
+                  <p class="bento-sub">Neon glass, puddle reflections & rain bokeh.</p>
+                </div>
+              </div>
+              <div class="bento-challenge-footer">
+                <span class="bento-stat-chip">👥 482 submissions</span>
+                <button class="bento-btn-glass-sm" onclick="filterByTag('#cyberpunk')">Join Quest</button>
+              </div>
+            </div>
+
+            <!-- Bento 4: Trending Audio -->
+            <div class="bento-card bento-audio">
+              <div class="bento-badge-row">
+                <span class="bento-pill-badge accent-purple">🎵 Trending Sound</span>
+                <span class="bento-stat-chip">1.2k posts</span>
+              </div>
+              <div class="bento-audio-track">
+                <span class="audio-disc-icon">💿</span>
+                <div>
+                  <h4 class="bento-audio-title">Tycho • Awake (Horizon Edit)</h4>
+                  <p class="bento-sub">Ambient electronic mood</p>
+                </div>
+              </div>
+              <div class="bento-challenge-footer">
+                <span class="bento-stat-chip">Trending now</span>
+                <button class="bento-btn-glass-sm" onclick="showToast('🎵 Audio tag attached: Tycho • Awake')">Attach Sound</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION HEADER -->
+          <div class="explore-section-header">
+            <h3 class="explore-section-title">Trending Moments</h3>
+            <span class="explore-section-sub">Curated visual photography feed</span>
+          </div>
+
+          <!-- PHOTO EXPLORE GRID -->
+          <div class="explore-photo-grid" id="explore-posts-container">
+            <!-- Injected via app.js -->
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW: REELS (IMMERSIVE VERTICAL SNAP-SCROLL EXPERIENCE) -->
+      <section class="view-panel hidden" id="view-reels">
+        <div class="reels-view-layout">
+          <!-- Desktop navigation arrows -->
+          <div class="reels-controls-sidebar">
+            <button class="reels-arrow-btn" id="btn-reel-prev" title="Previous Reel (↑)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
+            </button>
+            <button class="reels-arrow-btn" id="btn-reel-next" title="Next Reel (↓)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+          </div>
+
+          <!-- Vertical Snap-Scroll Reel Container -->
+          <div class="reels-feed-container" id="reels-feed-container">
+            <!-- Injected via app.js -->
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW: DIRECT MESSAGES (CHAT SPLIT SCREEN AS IN IMAGE 2) -->
+
+      <section class="view-panel hidden" id="view-messages">
+        <div class="chat-container">
+          
+          <!-- LEFT COLUMN: CONVERSATIONS & NOTES (IMAGE 2 ARCHITECTURE) -->
+          <div class="chat-sidebar-pane">
+            
+            <!-- 1. HEADER: USERNAME DROPDOWN + PEN NEW CHAT ICON -->
+            <div class="chat-sidebar-header">
+              <div class="chat-account-selector" id="chat-account-selector" title="Switch account">
+                <span class="chat-my-handle" id="chat-current-user-handle">@username</span>
+                <svg class="chevron-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </div>
+              <button class="btn-new-chat" id="btn-open-new-chat" title="New Message">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                </svg>
+              </button>
+            </div>
+
+            <!-- 2. SEARCH PILL (IMAGE 2) -->
+            <div class="chat-search-wrap">
+              <div class="chat-search-pill">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" id="chat-search-input" placeholder="Search">
+              </div>
+            </div>
+
+            <!-- 3. NOTES HORIZONTAL SHELF (IMAGE 2 THOUGHT CLOUDS) -->
+            <div class="chat-notes-shelf" id="chat-notes-shelf">
+              <!-- Rendered via JS -->
+            </div>
+
+            <!-- 4. SUBTABS: MESSAGES & REQUESTS (IMAGE 2) -->
+            <div class="chat-tab-header">
+              <button class="chat-tab-switch active" id="tab-direct-messages">Messages</button>
+              <button class="chat-tab-switch" id="tab-direct-requests">Requests</button>
+            </div>
+
+            <!-- 5. THREADS LIST -->
+            <div class="chat-threads-list" id="chat-threads-list">
+              <!-- Injected via app.js -->
+            </div>
+          </div>
+
+          <!-- RIGHT COLUMN: ACTIVE CONVERSATION FULL PANEL -->
+          <div class="chat-active-pane" id="chat-active-pane">
+            <!-- ACTIVE CHAT CONVERSATION (FULL PANEL) -->
+            <div class="chat-conversation-area" id="chat-conversation-area">
+              <!-- Chat Header -->
+              <div class="chat-header-bar">
+                <div class="chat-partner-info" id="chat-partner-info">
+                  <div class="partner-avatar-wrap">
+                    <img src="" alt="Partner Avatar" class="chat-partner-avatar" id="chat-header-avatar">
+                    <span class="partner-online-indicator"></span>
+                  </div>
+                  <div class="chat-partner-meta">
+                    <span class="chat-partner-name" id="chat-header-name">Partner Name</span>
+                    <span class="chat-partner-status">Active now</span>
+                  </div>
+                </div>
+                <div class="chat-header-actions">
+                  <button class="btn-chat-header-icon" title="Audio Call">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="19" height="19">
+                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                    </svg>
+                  </button>
+                  <button class="btn-chat-header-icon" title="Video Call">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="19" height="19">
+                      <polygon points="23 7 16 12 23 17 23 7"></polygon>
+                      <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                    </svg>
+                  </button>
+                  <button class="btn-text-action" id="btn-view-chat-partner-profile">View Profile</button>
+                </div>
+              </div>
+
+              <!-- Message Stream -->
+              <div class="chat-messages-stream" id="chat-messages-stream">
+                <!-- Injected via app.js -->
+              </div>
+
+              <!-- Typing indicator -->
+              <div class="chat-typing-row hidden" id="chat-typing-row">
+                <span class="typing-indicator-dot"></span>
+                <span id="chat-typing-text">typing...</span>
+              </div>
+
+              <!-- Quick Reactions & Message Input -->
+              <div class="chat-input-container">
+                <div class="chat-quick-reactions">
+                  <button type="button" class="btn-chat-reaction" data-emoji="❤️">❤️</button>
+                  <button type="button" class="btn-chat-reaction" data-emoji="🔥">🔥</button>
+                  <button type="button" class="btn-chat-reaction" data-emoji="👏">👏</button>
+                  <button type="button" class="btn-chat-reaction" data-emoji="✨">✨</button>
+                  <button type="button" class="btn-chat-reaction" data-emoji="💀">💀</button>
+                </div>
+                <div class="chat-input-box">
+                  <input type="text" id="chat-text-input" placeholder="Message..." autocomplete="off">
+                  <button class="btn-send-message" id="btn-send-message">Send</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <!-- VIEW 3: SAVED POSTS -->
+      <section class="view-panel hidden" id="view-saved">
+        <div class="profile-layout-inner">
+          <div class="saved-header">
+            <h2>Saved Collections</h2>
+            <p>Only you can see what you've saved</p>
+          </div>
+          <div class="explore-photo-grid" id="saved-posts-container">
+            <!-- Injected via app.js -->
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 4: NOTIFICATIONS -->
+      <section class="view-panel hidden" id="view-notifications">
+        <div class="notif-layout-inner">
+          <div class="notif-header">
+            <h2>Activity</h2>
+            <button class="btn-text" id="btn-mark-all-read">Mark all as read</button>
+          </div>
+          <div class="notif-items-list" id="notifications-list">
+            <!-- Injected via app.js -->
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 5: USER PROFILE (INSTAGRAM 3x3 GRID STYLE) -->
+      <section class="view-panel hidden" id="view-profile">
+        <div class="profile-layout-inner">
+
+          <!-- PROFILE HEADER -->
+          <div class="ig-profile-header">
+            <div class="ig-avatar-column">
+              <div class="ig-avatar-ring">
+                <img src="" alt="Profile Avatar" class="ig-avatar-img" id="profile-view-avatar">
+              </div>
+            </div>
+
+            <div class="ig-details-column">
+              <div class="ig-user-row">
+                <h2 class="ig-handle" id="profile-view-handle">@username</h2>
+                <div class="ig-actions" id="profile-action-buttons">
+                  <!-- Injected Edit Profile or Follow Button -->
+                </div>
+              </div>
+
+              <!-- STATS ROW -->
+              <div class="ig-stats-row">
+                <div class="stat-cell">
+                  <strong id="stat-posts-count">0</strong>
+                  <span>posts</span>
+                </div>
+                <button class="stat-cell stat-clickable" id="btn-view-followers">
+                  <strong id="stat-followers-count">0</strong>
+                  <span>followers</span>
+                </button>
+                <button class="stat-cell stat-clickable" id="btn-view-following">
+                  <strong id="stat-following-count">0</strong>
+                  <span>following</span>
+                </button>
+              </div>
+
+              <!-- BIO & METADATA -->
+              <div class="ig-bio-block">
+                <div class="ig-name-badge">
+                  <span class="ig-full-name" id="profile-view-name">Full Name</span>
+                  <span class="ig-badge" id="profile-view-badge">CREATOR</span>
+                </div>
+                <p class="ig-bio-text" id="profile-view-bio">Profile bio text...</p>
+                <div class="ig-meta-links">
+                  <span class="meta-tag" id="profile-view-location">📍 Location</span>
+                  <a href="#" target="_blank" rel="noopener noreferrer" class="meta-link" id="profile-view-website">🔗 website.com</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- STORY HIGHLIGHTS STRIP -->
+          <div class="highlights-strip">
+            <div class="highlight-item">
+              <div class="highlight-circle">🖤</div>
+              <span>Moments</span>
+            </div>
+            <div class="highlight-item">
+              <div class="highlight-circle">🏛️</div>
+              <span>Studio</span>
+            </div>
+            <div class="highlight-item">
+              <div class="highlight-circle">📷</div>
+              <span>Archive</span>
+            </div>
+          </div>
+
+          <!-- GRID / FEED VIEW TABS -->
+          <div class="profile-tabs-bar">
+            <button class="profile-tab-btn active" id="btn-profile-grid-tab">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7"/>
+                <rect x="14" y="3" width="7" height="7"/>
+                <rect x="14" y="14" width="7" height="7"/>
+                <rect x="3" y="14" width="7" height="7"/>
+              </svg>
+              <span>POSTS</span>
+            </button>
+            <button class="profile-tab-btn" id="btn-profile-feed-tab">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <line x1="3" y1="12" x2="21" y2="12"/>
+                <line x1="3" y1="18" x2="21" y2="18"/>
+              </svg>
+              <span>FEED</span>
+            </button>
+          </div>
+
+          <!-- PROFILE POSTS CONTAINER (SWITCHES BETWEEN 3X3 GRID & FEED) -->
+          <div class="profile-content-area">
+            <div class="explore-photo-grid" id="profile-grid-container"></div>
+            <div class="visual-feed hidden" id="profile-feed-container"></div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- VIEW 7: COMPREHENSIVE SETTINGS HUB -->
+      <section class="view-panel hidden" id="view-settings">
+        <div class="settings-layout-wrapper">
+          
+          <!-- SETTINGS HEADER -->
+          <div class="settings-top-bar">
+            <div class="settings-title-group">
+              <h1 class="settings-main-title">Settings</h1>
+              <p class="settings-main-subtitle">Manage your account preferences, privacy, security, notifications, and media quality.</p>
+            </div>
+            <div class="settings-header-badge">
+              <span class="settings-badge-pill" id="settings-current-user-pill">@username</span>
+            </div>
+          </div>
+
+          <div class="settings-grid-layout">
+            
+            <!-- LEFT NAVIGATION SIDEBAR -->
+            <nav class="settings-nav-sidebar" aria-label="Settings Categories">
+              <button class="settings-tab-btn active" data-settings-tab="profile" id="tab-settings-profile">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <span>Edit Profile</span>
+              </button>
+
+              <button class="settings-tab-btn" data-settings-tab="security" id="tab-settings-security">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+                <span>Account & Security</span>
+              </button>
+
+              <button class="settings-tab-btn" data-settings-tab="privacy" id="tab-settings-privacy">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+                <span>Privacy & Safety</span>
+              </button>
+
+              <button class="settings-tab-btn" data-settings-tab="notifications" id="tab-settings-notifications">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                  <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                </svg>
+                <span>Notifications</span>
+              </button>
+
+              <button class="settings-tab-btn" data-settings-tab="appearance" id="tab-settings-appearance">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="M12 2a10 10 0 0 1 0 20v-20z"></path>
+                </svg>
+                <span>Appearance & Media</span>
+              </button>
+
+              <button class="settings-tab-btn" data-settings-tab="data" id="tab-settings-data">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                <span>Data & Storage</span>
+              </button>
+
+              <button class="settings-tab-btn" data-settings-tab="about" id="tab-settings-about">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="16" x2="12" y2="12"></line>
+                  <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                <span>About & Support</span>
+              </button>
+            </nav>
+
+            <!-- RIGHT SETTINGS CONTENT PANES -->
+            <div class="settings-content-wrapper">
+              
+              <!-- 1. EDIT PROFILE PANE -->
+              <div class="settings-pane active" id="pane-settings-profile">
+                <div class="settings-card">
+                  <div class="settings-card-header">
+                    <h3 class="settings-card-title">Public Profile</h3>
+                    <p class="settings-card-desc">People on NewGram will get to know you with the public info below.</p>
+                  </div>
+
+                  <!-- Quick Avatar Row -->
+                  <div class="settings-avatar-row">
+                    <img src="" alt="Profile Avatar" class="settings-preview-avatar" id="settings-avatar-preview">
+                    <div class="settings-avatar-meta">
+                      <h4 id="settings-avatar-handle">@username</h4>
+                      <p class="settings-micro-hint">Paste an image URL below to update your profile photo instantly.</p>
+                    </div>
+                  </div>
+
+                  <form id="form-settings-profile" class="settings-form" onsubmit="return false;">
+                    <div class="settings-form-row">
+                      <label for="settings-input-name" class="settings-label">Full Name</label>
+                      <input type="text" id="settings-input-name" class="settings-input" placeholder="e.g. Seth Rollins">
+                    </div>
+
+                    <div class="settings-form-row">
+                      <label for="settings-input-username" class="settings-label">Username / Handle</label>
+                      <div class="settings-input-prefix-wrap">
+                        <span class="settings-input-prefix">@</span>
+                        <input type="text" id="settings-input-username" class="settings-input with-prefix" placeholder="username">
+                      </div>
+                    </div>
+
+                    <div class="settings-form-row">
+                      <label for="settings-input-badge" class="settings-label">Creator Category / Badge</label>
+                      <select id="settings-input-badge" class="settings-select">
+                        <option value="CREATOR">CREATOR</option>
+                        <option value="PHOTOGRAPHER">PHOTOGRAPHER</option>
+                        <option value="DESIGNER">DESIGNER</option>
+                        <option value="DEVELOPER">DEVELOPER</option>
+                        <option value="ARTIST">ARTIST</option>
+                        <option value="CURATOR">CURATOR</option>
+                        <option value="ARCHITECT">ARCHITECT</option>
+                      </select>
+                    </div>
+
+                    <div class="settings-form-row">
+                      <div class="label-with-counter">
+                        <label for="settings-input-bio" class="settings-label">Bio</label>
+                        <span class="char-counter" id="settings-bio-counter">0/150</span>
+                      </div>
+                      <textarea id="settings-input-bio" class="settings-textarea" rows="3" maxlength="150" placeholder="A short bio about your visual style or creative philosophy..."></textarea>
+                    </div>
+
+                    <div class="settings-form-row">
+                      <label for="settings-input-location" class="settings-label">Location</label>
+                      <input type="text" id="settings-input-location" class="settings-input" placeholder="e.g. Tokyo, Japan • Mumbai, India">
+                    </div>
+
+                    <div class="settings-form-row">
+                      <label for="settings-input-website" class="settings-label">Website / Portfolio</label>
+                      <input type="url" id="settings-input-website" class="settings-input" placeholder="https://yourportfolio.com">
+                    </div>
+
+                    <div class="settings-form-row">
+                      <label for="settings-input-avatar" class="settings-label">Avatar Image URL</label>
+                      <input type="url" id="settings-input-avatar" class="settings-input" placeholder="https://images.unsplash.com/...">
+                    </div>
+
+                    <div class="settings-form-row">
+                      <label for="settings-input-cover" class="settings-label">Cover Banner URL</label>
+                      <input type="url" id="settings-input-cover" class="settings-input" placeholder="https://images.unsplash.com/...">
+                    </div>
+
+                    <div class="settings-form-actions">
+                      <button type="button" class="btn-primary" id="btn-save-settings-profile">Save Profile Changes</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+              <!-- 2. ACCOUNT & SECURITY PANE -->
+              <div class="settings-pane hidden" id="pane-settings-security">
+                <!-- Change Password -->
+                <div class="settings-card">
+                  <div class="settings-card-header">
+                    <h3 class="settings-card-title">Change Password</h3>
+                    <p class="settings-card-desc">Keep your NewGram account secure with a strong password.</p>
+                  </div>
+                  <form id="form-settings-password" class="settings-form" onsubmit="return false;">
+                    <div class="settings-form-row">
+                      <label for="settings-pass-current" class="settings-label">Current Password</label>
+                      <input type="password" id="settings-pass-current" class="settings-input" placeholder="Enter your current password">
+                    </div>
+                    <div class="settings-form-row">
+                      <label for="settings-pass-new" class="settings-label">New Password</label>
+                      <input type="password" id="settings-pass-new" class="settings-input" placeholder="At least 4 characters">
+                    </div>
+                    <div class="settings-form-row">
+                      <label for="settings-pass-confirm" class="settings-label">Confirm New Password</label>
+                      <input type="password" id="settings-pass-confirm" class="settings-input" placeholder="Re-type your new password">
+                    </div>
+                    <div class="settings-form-actions">
+                      <button type="button" class="btn-primary" id="btn-update-settings-password">Update Password</button>
+                    </div>
+                  </form>
+                </div>
+
+                <!-- Active Logins & 2FA -->
+                <div class="settings-card">
+                  <div class="settings-card-header">
+                    <h3 class="settings-card-title">Security & Sessions</h3>
+                    <p class="settings-card-desc">Where you're logged in and additional authentication protection.</p>
+                  </div>
+                  <div class="settings-toggle-row">
+                    <div class="settings-toggle-text">
+                      <span class="settings-toggle-title">Two-Factor Authentication (2FA)</span>
+                      <span class="settings-toggle-desc">Require a secondary verification check when signing in on a new device.</span>
+                    </div>
+                    <label class="switch-toggle">
+                      <input type="checkbox" id="settings-toggle-2fa">
+                      <span class="switch-slider"></span>
+                    </label>
+                  </div>
+                  <div class="settings-divider"></div>
+                  <div class="active-session-item">
+                    <div class="session-icon">💻</div>
+                    <div class="session-info">
+                      <strong>Windows PC • Web Browser (Chrome/Edge)</strong>
+                      <span>Active Now • Localhost Port 3000 (Current Session)</span>
+                    </div>
+                    <span class="session-badge-current">This Device</span>
+                  </div>
+                </div>
+
+                <!-- Danger Zone: Delete Account -->
+                <div class="settings-card settings-card-danger">
+                  <div class="settings-card-header">
+                    <h3 class="settings-card-title danger-title">Danger Zone</h3>
+                    <p class="settings-card-desc">Permanently remove your account and all associated posts, comments, likes, and messages.</p>
+                  </div>
+                  <div class="danger-box-content">
+                    <p class="danger-warning-text">Once deleted, your portfolio, followers, and direct message history cannot be recovered from <code>newgram.db</code>.</p>
+                    <button type="button" class="btn-danger" id="btn-danger-delete-account">Delete My Account</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 3. PRIVACY & SAFETY PANE -->
+              <div class="settings-pane hidden" id="pane-settings-privacy">
+                <div class="settings-card">
+                  <div class="settings-card-header">
+                    <h3 class="settings-card-title">Account Privacy & Interactions</h3>
+                    <p class="settings-card-desc">Control who can view your content and message you.</p>
+                  </div>
+
+                  <div class="settings-toggle-row">
+                    <div class="settings-toggle-text">
+                      <span class="settings-toggle-title">Private Account</span>
+                      <span class="settings-toggle-desc">When enabled, only people who follow you can view your visuals and stories.</span>
+                    </div>
+                    <label class="switch-toggle">
+                      <input type="checkbox" id="settings-toggle-private">
+                      <span class="switch-slider"></span>
+                    </label>
+                  </div>
+
+                  <div class="settings-divider"></div>
+
+                  <div class="settings-form-row">
+                    <label for="settings-select-messages" class="settings-label">Who Can Send You Direct Messages</label>
+                    <select id="settings-select-messages" class="settings-select">
+                      <option value="everyone">Everyone (Open Inbox)</option>
+                      <option value="following">People You Follow Only</option>
+                      <option value="nobody">No One (Closed Inbox)</option>
+                    </select>
+                  </div>
+
+                  <div class="settings-divider"></div>
+
+                  <div class="settings-toggle-row">
+                    <div class="settings-toggle-text">
+                      <span class="settings-toggle-title">Filter Offensive Comments</span>
+                      <span class="settings-toggle-desc">Automatically hide toxic, spam, or abusive comments under your photography.</span>
+                    </div>
+                    <label class="switch-toggle">
+                      <input type="checkbox" id="settings-toggle-filter-comments" checked>
+                      <span class="switch-slider"></span>
+                    </label>
+                  </div>
+
+                  <div class="settings-divider"></div>
+
+                  <div class="settings-toggle-row">
+                    <div class="settings-toggle-text">
+                      <span class="settings-toggle-title">Show Activity Status</span>
+                      <span class="settings-toggle-desc">Allow creators you follow to see when you were last online in chat.</span>
+                    </div>
+                    <label class="switch-toggle">
+                      <input type="checkbox" id="settings-toggle-activity-status" checked>
+                      <span class="switch-slider"></span>
+                    </label>
+                  </div>
+
+                  <div class="settings-form-actions">
+                    <button type="button" class="btn-primary" id="btn-save-settings-privacy">Save Privacy Preferences</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 4. NOTIFICATIONS PANE -->
+              <div class="settings-pane hidden" id="pane-settings-notifications">
+                <div class="settings-card">
+                  <div class="settings-card-header">
+                    <h3 class="settings-card-title">Push & In-App Notifications</h3>
+                    <p class="settings-card-desc">Choose what notifications and badge popups you want to receive.</p>
+                  </div>
+
+                  <div class="settings-toggle-row">
+                    <div class="settings-toggle-text">
+                      <span class="settings-toggle-title">Pause All Notifications</span>
+                      <span class="settings-toggle-desc">Mute all alert sounds, floating badges, and notification popups.</span>
+                    </div>
+                    <label class="switch-toggle">
+                      <input type="checkbox" id="settings-toggle-notif-pause">
+                      <span class="switch-slider"></span>
+                    </label>
+                  </div>
+
+                  <div class="settings-divider"></div>
+
+                  <div class="settings-toggle-row">
+                    <div class="settings-toggle-text">
+                      <span class="settings-toggle-title">Likes & Reactions</span>
+                      <span class="settings-toggle-desc">Notify when creators like your photographs or comments.</span>
+                    </div>
+                    <label class="switch-toggle">
+                      <input type="checkbox" id="settings-toggle-notif-likes" checked>
+                      <span class="switch-slider"></span>
+                    </label>
+                  </div>
+
+                  <div class="settings-divider"></div>
+
+                  <div class="settings-toggle-row">
+                    <div class="settings-toggle-text">
+                      <span class="settings-toggle-title">Comments & Replies</span>
+                      <span class="settings-toggle-desc">Notify when someone comments on your visual posts.</span>
+                    </div>
+                    <label class="switch-toggle">
+                      <input type="checkbox" id="settings-toggle-notif-comments" checked>
+                      <span class="switch-slider"></span>
+                    </label>
+                  </div>
+
+                  <div class="settings-divider"></div>
+
+                  <div class="settings-toggle-row">
+                    <div class="settings-toggle-text">
+                      <span class="settings-toggle-title">Direct Messages</span>
+                      <span class="settings-toggle-desc">Notify when a new message arrives in your direct inbox.</span>
+                    </div>
+                    <label class="switch-toggle">
+                      <input type="checkbox" id="settings-toggle-notif-messages" checked>
+                      <span class="switch-slider"></span>
+                    </label>
+                  </div>
+
+                  <div class="settings-divider"></div>
+
+                  <div class="settings-toggle-row">
+                    <div class="settings-toggle-text">
+                      <span class="settings-toggle-title">New Followers</span>
+                      <span class="settings-toggle-desc">Notify when another creator follows your profile.</span>
+                    </div>
+                    <label class="switch-toggle">
+                      <input type="checkbox" id="settings-toggle-notif-followers" checked>
+                      <span class="switch-slider"></span>
+                    </label>
+                  </div>
+
+                  <div class="settings-form-actions">
+                    <button type="button" class="btn-primary" id="btn-save-settings-notifications">Save Notification Preferences</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 5. APPEARANCE & MEDIA PANE -->
+              <div class="settings-pane hidden" id="pane-settings-appearance">
+                <div class="settings-card">
+                  <div class="settings-card-header">
+                    <h3 class="settings-card-title">Theme & Aesthetics</h3>
+                    <p class="settings-card-desc">Customize how NewGram displays on your monitor.</p>
+                  </div>
+
+                  <div class="theme-picker-cards">
+                    <div class="theme-picker-option" id="theme-opt-dark" data-theme-choice="dark">
+                      <div class="theme-preview-box dark-preview">
+                        <div class="theme-mini-nav"></div>
+                        <div class="theme-mini-body">
+                          <div class="theme-mini-post"></div>
+                        </div>
+                      </div>
+                      <div class="theme-opt-meta">
+                        <strong>Obsidian Dark</strong>
+                        <span>Deep contrast luxury monochrome</span>
+                      </div>
+                    </div>
+
+                    <div class="theme-picker-option" id="theme-opt-light" data-theme-choice="light">
+                      <div class="theme-preview-box light-preview">
+                        <div class="theme-mini-nav"></div>
+                        <div class="theme-mini-body">
+                          <div class="theme-mini-post"></div>
+                        </div>
+                      </div>
+                      <div class="theme-opt-meta">
+                        <strong>Pristine White</strong>
+                        <span>Minimalist clean modern gallery</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="settings-divider"></div>
+
+                  <div class="settings-toggle-row">
+                    <div class="settings-toggle-text">
+                      <span class="settings-toggle-title">High Quality Media Uploads</span>
+                      <span class="settings-toggle-desc">Always preserve full uncompressed resolution when publishing visuals.</span>
+                    </div>
+                    <label class="switch-toggle">
+                      <input type="checkbox" id="settings-toggle-hq-media" checked>
+                      <span class="switch-slider"></span>
+                    </label>
+                  </div>
+
+                  <div class="settings-divider"></div>
+
+                  <div class="settings-toggle-row">
+                    <div class="settings-toggle-text">
+                      <span class="settings-toggle-title">Autoplay Stories & Previews</span>
+                      <span class="settings-toggle-desc">Automatically advance stories and smoothly preview animations.</span>
+                    </div>
+                    <label class="switch-toggle">
+                      <input type="checkbox" id="settings-toggle-autoplay" checked>
+                      <span class="switch-slider"></span>
+                    </label>
+                  </div>
+
+                  <div class="settings-divider"></div>
+
+                  <div class="settings-toggle-row">
+                    <div class="settings-toggle-text">
+                      <span class="settings-toggle-title">Compact Feed Layout</span>
+                      <span class="settings-toggle-desc">Optimize vertical height for dense visual browsing.</span>
+                    </div>
+                    <label class="switch-toggle">
+                      <input type="checkbox" id="settings-toggle-compact-feed">
+                      <span class="switch-slider"></span>
+                    </label>
+                  </div>
+
+                  <div class="settings-form-actions">
+                    <button type="button" class="btn-primary" id="btn-save-settings-appearance">Save Appearance Settings</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 6. DATA & STORAGE PANE -->
+              <div class="settings-pane hidden" id="pane-settings-data">
+                <div class="settings-card">
+                  <div class="settings-card-header">
+                    <h3 class="settings-card-title">Download Your Information</h3>
+                    <p class="settings-card-desc">Export a complete backup of your account, posts, comments, likes, and messages in structured JSON.</p>
+                  </div>
+                  <div class="export-box-row">
+                    <div class="export-box-info">
+                      <strong>Full Account Archive (.json)</strong>
+                      <span>Direct download of all your database records from <code>newgram.db</code>.</span>
+                    </div>
+                    <button type="button" class="btn-primary" id="btn-download-my-data">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                      </svg>
+                      <span>Download Archive</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="settings-card">
+                  <div class="settings-card-header">
+                    <h3 class="settings-card-title">Storage & Engine Stats</h3>
+                    <p class="settings-card-desc">Local storage and database engine status for this workspace.</p>
+                  </div>
+                  <div class="storage-stats-grid">
+                    <div class="storage-stat-pill">
+                      <span class="stat-pill-label">Local Storage</span>
+                      <strong class="stat-pill-val" id="storage-cache-size">Active</strong>
+                    </div>
+                    <div class="storage-stat-pill">
+                      <span class="stat-pill-label">Database Engine</span>
+                      <strong class="stat-pill-val">SQLite 3 (WAL)</strong>
+                    </div>
+                    <div class="storage-stat-pill">
+                      <span class="stat-pill-label">Account Data</span>
+                      <strong class="stat-pill-val">Synchronized</strong>
+                    </div>
+                  </div>
+
+                  <div class="settings-divider"></div>
+
+                  <div class="export-box-row">
+                    <div class="export-box-info">
+                      <strong>Reset Local Browser Cache</strong>
+                      <span>Clears local offline tokens, remembered UI filters, and resets preferences to default.</span>
+                    </div>
+                    <button type="button" class="btn-secondary" id="btn-clear-local-cache">Clear Cache</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 7. ABOUT & SUPPORT PANE -->
+              <div class="settings-pane hidden" id="pane-settings-about">
+                <div class="settings-card">
+                  <div class="settings-card-header">
+                    <div class="about-logo-row">
+                      <div class="about-app-icon">N</div>
+                      <div>
+                        <h3 class="settings-card-title">NewGram Obsidian</h3>
+                        <span class="about-version-badge">Version 2.4.0 (2026 Production)</span>
+                      </div>
+                    </div>
+                    <p class="settings-card-desc">The high-contrast, minimalist visual social network engineered for photographers, designers, and creators.</p>
+                  </div>
+
+                  <div class="about-info-list">
+                    <div class="about-info-row">
+                      <span class="about-label">Database File</span>
+                      <span class="about-val"><code>newgram.db</code> (Local Root Directory)</span>
+                    </div>
+                    <div class="about-info-row hidden" id="settings-admin-row">
+                      <span class="about-label">Database Control Center</span>
+                      <a href="/admin" target="_blank" class="about-link">Open /admin Console ↗</a>
+                    </div>
+                    <div class="about-info-row">
+                      <span class="about-label">Authentication Engine</span>
+                      <span class="about-val">Salted SHA-256 Hashes & Bearer Token Authorization</span>
+                    </div>
+                    <div class="about-info-row">
+                      <span class="about-label">Aesthetic Theme</span>
+                      <span class="about-val">Obsidian Minimalist & Pristine Gallery</span>
+                    </div>
+                  </div>
+
+                  <div class="settings-divider"></div>
+
+                  <div class="about-links-grid">
+                    <button type="button" class="about-pill-btn" id="btn-help-guidelines">Community Guidelines</button>
+                    <button type="button" class="about-pill-btn" id="btn-help-terms">Terms of Service</button>
+                    <button type="button" class="about-pill-btn" id="btn-help-privacy">Privacy Policy</button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODALS -->
+  <!-- ============================================== -->
+
+  <!-- 1. CREATE NEW POST MODAL (INSTAGRAM POPUP STYLE) -->
+  <dialog class="app-dialog" id="modal-create-post">
+    <div class="dialog-box create-post-dialog">
+      <div class="dialog-header">
+        <button class="dialog-btn-text" id="btn-cancel-create-post">Cancel</button>
+        <h3>Create New Post</h3>
+        <button class="dialog-btn-text primary" id="btn-publish-post">Share</button>
+      </div>
+
+      <div class="create-post-body">
+        <!-- Visual Media Preview / Selector -->
+        <div class="media-upload-pane">
+          <div class="preview-stage" id="create-preview-stage">
+            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80" alt="Post Preview" id="create-preview-img">
+          </div>
+
+          <!-- Preset Photography Selection Strip -->
+          <div class="preset-strip-selector">
+            <span class="preset-label">Curated Visuals:</span>
+            <div class="preset-thumbnails">
+              <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=200&q=80" alt="Architecture" class="thumb-opt active" data-url="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80">
+              <img src="https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=200&q=80" alt="Street Contrast" class="thumb-opt" data-url="https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=1200&q=80">
+              <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=200&q=80" alt="Workspace" class="thumb-opt" data-url="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80">
+              <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=200&q=80" alt="Art Sculpture" class="thumb-opt" data-url="https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=1200&q=80">
+              <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=200&q=80" alt="Sound Audio" class="thumb-opt" data-url="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=1200&q=80">
+            </div>
+            <div class="custom-url-field">
+              <input type="url" id="custom-image-input" placeholder="Or paste direct image URL...">
+              <button type="button" class="btn-micro" id="btn-apply-custom-image">Attach</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Caption & Location Side -->
+        <div class="caption-compose-pane">
+          <div class="author-row">
+            <img src="" alt="Author" class="author-micro-avatar" id="create-modal-author-avatar">
+            <span class="author-micro-name" id="create-modal-author-handle">@username</span>
+          </div>
+
+          <textarea id="create-caption-input" placeholder="Write an inspiring caption... Mention hashtags #monochrome #design" rows="5"></textarea>
+
+          <div class="field-row">
+            <span class="field-icon">📍</span>
+            <input type="text" id="create-location-input" placeholder="Add location (e.g. Milan, Italy)">
+          </div>
+
+          <div class="field-row">
+            <span class="field-icon">🏷️</span>
+            <input type="text" id="create-tags-input" placeholder="Tags (e.g. #architecture #art)">
+          </div>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- 2. STORY VIEWER MODAL -->
+  <dialog class="app-dialog story-dialog" id="modal-story-viewer">
+    <div class="story-stage">
+      <div class="story-progress-bar">
+        <div class="story-progress-fill" id="story-progress-fill"></div>
+      </div>
+      <div class="story-top-info">
+        <img src="" alt="Author" class="story-top-avatar" id="story-viewer-avatar">
+        <div class="story-top-meta">
+          <span class="story-top-name" id="story-viewer-name">Elena Rostova</span>
+          <span class="story-top-time" id="story-viewer-time">2h ago</span>
+        </div>
+        <button class="btn-close-story" id="btn-close-story">✕</button>
+      </div>
+      <img src="" alt="Story View" class="story-main-media" id="story-viewer-img">
+      <div class="story-bottom-caption" id="story-viewer-caption">Caption goes here</div>
+    </div>
+  </dialog>
+
+  <!-- 3. ADD STORY MODAL -->
+  <dialog class="app-dialog" id="modal-add-story">
+    <div class="dialog-box">
+      <div class="dialog-header">
+        <button class="dialog-btn-text" id="btn-cancel-add-story">Cancel</button>
+        <h3>Add to Your Story</h3>
+        <button class="dialog-btn-text primary" id="btn-submit-story">Share</button>
+      </div>
+      <form class="dialog-form" id="form-add-story">
+        <div class="form-group">
+          <label>Select visual for story:</label>
+          <div class="preset-thumbnails">
+            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=200&q=80" alt="Preset 1" class="thumb-opt active" data-url="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80">
+            <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=200&q=80" alt="Preset 2" class="thumb-opt" data-url="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=80">
+            <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=200&q=80" alt="Preset 3" class="thumb-opt" data-url="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=800&q=80">
+            <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=200&q=80" alt="Preset 4" class="thumb-opt" data-url="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=800&q=80">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="story-media-url">Or Custom Image URL</label>
+          <input type="url" id="story-media-url" placeholder="https://images.unsplash.com/...">
+        </div>
+        <div class="form-group">
+          <label for="story-caption">Caption</label>
+          <input type="text" id="story-caption" placeholder="A quick thought or moment...">
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- 4. EDIT PROFILE MODAL -->
+  <dialog class="app-dialog" id="modal-edit-profile">
+    <div class="dialog-box">
+      <div class="dialog-header">
+        <button class="dialog-btn-text" id="btn-cancel-edit">Cancel</button>
+        <h3>Edit Profile</h3>
+        <button class="dialog-btn-text primary" id="btn-save-edit-profile">Done</button>
+      </div>
+      <form class="dialog-form" id="form-edit-profile">
+        <div class="form-group">
+          <label for="edit-name">Name</label>
+          <input type="text" id="edit-name" required>
+        </div>
+        <div class="form-group">
+          <label for="edit-bio">Bio</label>
+          <textarea id="edit-bio" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="edit-avatar">Avatar Image URL</label>
+          <input type="url" id="edit-avatar">
+        </div>
+        <div class="form-group">
+          <label for="edit-location">Location</label>
+          <input type="text" id="edit-location">
+        </div>
+        <div class="form-group">
+          <label for="edit-website">Website</label>
+          <input type="text" id="edit-website">
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- 5. CREATE NEW PERSONA MODAL -->
+  <dialog class="app-dialog" id="modal-create-user">
+    <div class="dialog-box">
+      <div class="dialog-header">
+        <button class="dialog-btn-text" id="btn-cancel-create-user">Cancel</button>
+        <h3>New Account</h3>
+        <button class="dialog-btn-text primary" id="btn-submit-create-user">Create</button>
+      </div>
+      <form class="dialog-form" id="form-create-user">
+        <div class="form-group">
+          <label for="new-username">Username</label>
+          <input type="text" id="new-username" required placeholder="e.g. minimalist_studio">
+        </div>
+        <div class="form-group">
+          <label for="new-name">Full Name</label>
+          <input type="text" id="new-name" required placeholder="e.g. Lucas Sterling">
+        </div>
+        <div class="form-group">
+          <label for="new-bio">Bio</label>
+          <textarea id="new-bio" rows="2" placeholder="Visual artist & designer"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="new-avatar">Avatar URL (Optional)</label>
+          <input type="url" id="new-avatar" placeholder="Leave blank for auto avatar">
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- 6. NETWORK MODAL (FOLLOWERS / FOLLOWING) -->
+  <dialog class="app-dialog" id="modal-network">
+    <div class="dialog-box">
+      <div class="dialog-header">
+        <h3 id="network-modal-title">Followers</h3>
+        <button class="dialog-btn-text" id="btn-close-network-modal">✕</button>
+      </div>
+      <div class="network-list" id="network-modal-list"></div>
+    </div>
+  </dialog>
+
+  <!-- 7. NEW DIRECT MESSAGE MODAL -->
+  <dialog class="app-dialog" id="modal-new-chat">
+    <div class="dialog-box">
+      <div class="dialog-header">
+        <button class="dialog-btn-text" id="btn-cancel-new-chat">Cancel</button>
+        <h3>New Message</h3>
+        <button class="dialog-btn-text primary" id="btn-start-selected-chat">Chat</button>
+      </div>
+      <div class="new-chat-search-wrap">
+        <span class="to-label">To:</span>
+        <input type="text" id="new-chat-search-input" placeholder="Search creators...">
+      </div>
+      <div class="network-list" id="new-chat-user-list">
+        <!-- Injected via app.js -->
+      </div>
+    </div>
+  </dialog>
+
+  <!-- 8. AUTHENTICATION MODAL (LOGIN & SIGN UP) -->
+  <dialog class="app-dialog auth-dialog" id="modal-auth">
+    <div class="dialog-box auth-dialog-box">
+      <div class="auth-dialog-header">
+        <div class="auth-brand-badge">
+          <svg viewBox="0 0 32 32" fill="none" width="28" height="28" xmlns="http://www.w3.org/2000/svg">
+            <rect width="32" height="32" rx="8" fill="var(--text-primary)" />
+            <path d="M8.5 23.5V8.5H12L20 19.5V8.5H23.5V23.5H20L12 12.5V23.5H8.5Z" fill="var(--bg-canvas)" />
+          </svg>
+          <div class="auth-brand-info">
+            <span class="auth-brand-title">NewGram</span>
+            <span class="auth-brand-sub">Visual Social Network</span>
+          </div>
+        </div>
+        <button class="dialog-btn-text" id="btn-close-auth-modal" title="Close">✕</button>
+      </div>
+
+      <!-- TABS: LOG IN vs CREATE ACCOUNT -->
+      <div class="auth-tabs-bar">
+        <button class="auth-tab-btn active" id="auth-tab-login" type="button">Log In</button>
+        <button class="auth-tab-btn" id="auth-tab-register" type="button">Create Account</button>
+      </div>
+
+      <!-- ERROR / NOTICE BANNER -->
+      <div class="auth-notice-banner hidden" id="auth-notice-banner"></div>
+
+      <!-- LOGIN FORM -->
+      <form class="dialog-form auth-form-pane" id="form-auth-login">
+        <div class="form-group">
+          <label for="login-username">Username or Email</label>
+          <div class="auth-input-wrapper">
+            <span class="auth-input-prefix">@</span>
+            <input type="text" id="login-username" placeholder="Enter your username or email" autocomplete="username" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="label-row-between">
+            <label for="login-password">Password</label>
+          </div>
+          <div class="auth-input-wrapper">
+            <input type="password" id="login-password" placeholder="Enter your password" autocomplete="current-password" required>
+            <button type="button" class="btn-toggle-password" id="btn-toggle-login-pass" title="Toggle password visibility">👁️</button>
+          </div>
+        </div>
+        <button type="submit" class="auth-btn-primary" id="btn-submit-login">Log In to NewGram</button>
+      </form>
+
+
+      <!-- REGISTER FORM -->
+      <form class="dialog-form auth-form-pane hidden" id="form-auth-register" style="display: none;">
+        <div class="form-group">
+          <label for="register-name">Full Name</label>
+          <input type="text" id="register-name" placeholder="e.g. Maya Sterling" autocomplete="name" required>
+        </div>
+        <div class="form-group">
+          <label for="register-username">Handle / Username</label>
+          <div class="auth-input-wrapper">
+            <span class="auth-input-prefix">@</span>
+            <input type="text" id="register-username" placeholder="e.g. maya_vibes" autocomplete="username" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="register-password">Password</label>
+          <div class="auth-input-wrapper">
+            <input type="password" id="register-password" placeholder="Minimum 4 characters" autocomplete="new-password" required minlength="4">
+            <button type="button" class="btn-toggle-password" id="btn-toggle-reg-pass" title="Toggle password visibility">👁️</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="register-bio">Bio (Optional)</label>
+          <input type="text" id="register-bio" placeholder="Visual storyteller, minimalist creator...">
+        </div>
+        <div class="form-group">
+          <label for="register-avatar">Avatar URL (Optional)</label>
+          <input type="url" id="register-avatar" placeholder="Leave empty for unique generated avatar">
+        </div>
+        <button type="submit" class="auth-btn-primary" id="btn-submit-register">Create Free Account</button>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- FLOATING BOTTOM-RIGHT MESSAGES PILL (IMAGE 1 ARCHITECTURE) -->
+  <div class="floating-messages-dock" id="floating-messages-dock" title="Direct Messages">
+    <div class="floating-dock-badge" id="floating-dock-badge">2</div>
+    <span class="floating-dock-title">Messages</span>
+    <div class="floating-dock-avatars" id="floating-dock-avatars">
+      <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&q=80" class="dock-mini-avatar" id="dock-avatar-1" alt="Chat 1">
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&q=80" class="dock-mini-avatar" id="dock-avatar-2" alt="Chat 2">
+    </div>
+  </div>
+
+  <!-- TOAST CONTAINER -->
+  <div class="toast-tray" id="toast-container" aria-live="polite"></div>
+
+  <!-- SCRIPT -->
+  <script src="app.js?v=12.0"></script>
+</body>
+</html>

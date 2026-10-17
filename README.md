@@ -1,196 +1,195 @@
-# 🖤 NewGram — A Modern Visual Social Network
+# 🖤 NewGram — High-Performance Visual Social Network
 
-NewGram is a modern, minimalist social media platform inspired by visual storytelling, community interaction, and contemporary UI design. It combines a premium glassmorphism interface with social networking features to deliver an engaging user experience.
-
-## ✨ Features
-
-### 📸 Social Feed
-- Create and share posts with text and images.
-- Like and unlike posts with interactive feedback.
-- Comment on posts and participate in discussions.
-- Switch between all posts and content from followed users.
-
-### 👤 User Profiles
-- User registration, login, and profile management.
-- Custom profile pictures, bios, cover images, and profile details.
-- View user posts, followers, and following.
-- Follow and unfollow other users.
-- Search for creators and discover new profiles.
-
-### 🎬 Stories & Reels
-- Interactive stories carousel and story viewer.
-- Vertical reels-style browsing experience.
-- Creator interactions directly from reels.
-
-### 💬 Messaging
-- Direct messaging interface.
-- Conversation lists and unread message indicators.
-- Quick emoji reactions.
-
-### 🧭 Explore & Discovery
-- Bento Grid-inspired Explore page.
-- Trending hashtags and user search.
-- Daily community poll.
-- Discover content and creators.
-
-### ⚙️ Settings & Personalization
-- Edit profile information and appearance.
-- Dark and light themes.
-- Privacy and notification preferences.
-- Download account information as JSON.
-
-### 🛡️ Admin Dashboard
-- Dedicated administration interface.
-- User management and account moderation.
-- Post and comment moderation.
-- Platform statistics and database overview.
-- Database export functionality.
-
-## 🎨 UI & Design
-
-- Modern glassmorphism design with subtle neumorphism accents.
-- Minimalist visual layout and responsive components.
-- Dark and light themes.
-- Smooth transitions and interactive animations.
-- Responsive experience for desktop and mobile screens.
-
-## 🛠️ Tech Stack
-
-| Technology | Purpose |
-|---|---|
-| HTML5 | Application structure |
-| CSS3 | Styling, responsive layouts, and visual effects |
-| Vanilla JavaScript | Frontend interactions and API integration |
-| Node.js | JavaScript runtime |
-| Express.js | Backend server and REST API |
-| SQLite3 | Relational SQL database |
-| better-sqlite3 | SQLite database integration |
-| Crypto module | Password hashing and token generation |
-
-## 📂 Project Structure
-
-```text
-Social Media-CA/
-├── public/
-│   ├── index.html
-│   ├── admin.html
-│   ├── style.css
-│   └── app.js
-├── server.js
-├── db.js
-├── view-db.js
-├── newgram.db
-├── package.json
-├── package-lock.json
-├── .gitignore
-└── README.md
-```
-
-*Note: The directory structure above reflects the documented project layout. Some files may vary depending on your current version.*
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-Install the following:
-
-- [Node.js](https://nodejs.org/) — version 18 or higher recommended.
-- npm — included with Node.js.
-
-### Installation
-
-**1. Clone the repository**
-
-```bash
-git clone https://github.com/YOUR_USERNAME/codealpha_project.git
-cd codealpha_project
-```
-
-Replace `YOUR_USERNAME` with your GitHub username.
-
-**2. Install dependencies**
-
-```bash
-npm install
-```
-
-**3. Configure environment variables**
-
-Create a `.env` file if your application is configured to use environment variables. Keep secrets out of version control.
-
-If an `.env.example` file is provided, use it as the configuration template.
-
-**4. Start the application**
-
-```bash
-npm start
-```
-
-**5. Open NewGram**
-
-Visit:
-
-```text
-http://localhost:3000
-```
-
-The application is served locally by the Express.js server.
-
-## 🗄️ Database
-
-NewGram uses **SQLite3**, a lightweight relational SQL database.
-
-- Database file: `newgram.db`
-- Database integration: `better-sqlite3`
-- Database initialization and schema setup: `db.js`
-- Journal mode: WAL (Write-Ahead Logging)
-
-The database stores application records such as users, posts, comments, likes, and follower relationships, along with other features implemented in the project.
-
-## 🔐 Authentication & Security
-
-- Login and registration endpoints.
-- Password hashing.
-- Session-token-based authentication.
-- Protected administrative API endpoints.
-- Role-based access checks for admin functionality.
-
-**Security note:** Review authentication, authorization, and password-hashing implementations before deploying publicly. Use strong environment-based credentials, never commit real secrets, and restrict sensitive administrative operations.
-
-## 🔑 Demo Access
-
-For local testing, use demo accounts documented in the project setup instructions, if available.
-
-For administrative access, configure the admin credentials securely through environment variables. Do not rely on default credentials for a public deployment.
-
-## 🧪 Testing
-
-Before deployment, verify the following:
-
-- Registration and login.
-- Creating and deleting posts.
-- Liking posts and adding comments.
-- Following and unfollowing users.
-- Profile updates and search.
-- Admin authorization and restricted API access.
-- Database persistence after restarting the server.
-
-## 🎯 Project Objective
-
-NewGram explores the development of a full-stack social networking application using web technologies, a REST API, and a relational database. It demonstrates frontend design, backend development, database integration, and social interaction workflows.
-
-## 🔮 Future Improvements
-
-- Real-time notifications and messaging.
-- Improved media upload and storage.
-- Feed ranking and personalization.
-- Enhanced content moderation.
-- Automated tests and deployment workflows.
-
-## 📄 License
-
-This project is intended for educational and portfolio purposes. Add a `LICENSE` file if you want to specify formal reuse and distribution terms.
+A modern, minimalist visual social platform inspired by **Instagram, Threads & Bento UI**, engineered with pure **HTML5, Vanilla CSS3 (Glassmorphism + Neumorphism accents), and Modular JavaScript** on the frontend, powered by **Express.js with SQLite3 (WAL mode)** on the backend.
 
 ---
 
-**Built with ❤️ using HTML, CSS, JavaScript, Node.js, Express.js, and SQLite.**
+## ⚡ Quick Start & Running Locally
+
+### 1. Prerequisites
+- **Node.js** (v18 or higher recommended)
+- **npm** (included with Node.js)
+
+### 2. Installation & Launch
+```bash
+# Clone the repository and navigate into the directory
+cd "Social Media-CA"
+
+# Install dependencies (express, better-sqlite3, cors)
+npm install
+
+# Start the application server
+npm start
+```
+The server will start at: **`http://localhost:3000`**
+
+---
+
+## 🔑 Demo & Admin Credentials
+
+Anyone inspecting or testing the application can log in immediately using the following accounts:
+
+### 🛡️ Master Administrator Account
+| Parameter | Value | Details |
+| :--- | :--- | :--- |
+| **Username** | `admin` *(or `admin@newgram.com`)* | Super Admin credentials |
+| **Password** | `admin123` | Configurable via `ADMIN_PASSWORD` environment variable |
+| **Access** | Full Admin Console | Reveals **Admin Console** in NewGram More Menu and unlocks `/admin` |
+
+> [!TIP]
+> **Production Note:** When deploying live, set `ADMIN_PASSWORD=your_secure_password node server.js` to change the master admin password securely without touching code.
+
+---
+
+### 🎨 Demo Creator Accounts
+All demo accounts come pre-seeded with profile bios, avatars, cover photos, high-resolution visual posts, reels, and stories:
+
+| Creator Name | Handle / Username | Password | Specialty & Bio |
+| :--- | :--- | :--- | :--- |
+| **Elena Rostova** | `elena` (`@elena_visuals`) | `password123` | Architectural & Minimalist Photographer (Milan) |
+| **Alex Rivera** | `alex` (`@alex_minimal`) | `password123` | Design Systems & Brutalist UI Designer (Tokyo) |
+| **Sophia Kim** | `sophia` (`@sophia_lens`) | `password123` | Analog & Ambient Film Creator (Oslo) |
+| **Marcus Vance** | `marcus` (`@marcus_vance`) | `password123` | Modular Synth & Sound Designer (Berlin) |
+| **Clara Oswald** | `clara` (`@clara_noir`) | `password123` | Ceramicist & Gallery Curator (Paris) |
+
+> [!NOTE]
+> You can also click **"Create Free Account"** inside the authentication dialog to register an authentic new user account with custom avatar, handle, bio, and password.
+
+---
+
+## 🔒 Security & Data Leak Prevention Architecture
+
+NewGram is engineered with enterprise-grade data protection to ensure safe live deployment without risk of data leaks:
+
+1. **Role-Based Visibility (Admin Console Privacy):**
+   - For regular users and unauthenticated guests, all **Admin Console** navigation items (in the sidebar "More" dropdown and in Settings) are **completely hidden**.
+   - Admin options are dynamically revealed **only** when an authorized Admin account (`admin` or accounts with `ADMIN` badge) logs in.
+
+2. **Strict API Endpoint Protection:**
+   - Every `/api/admin/*` endpoint is locked behind `requireAdminAuth` middleware.
+   - Any unauthenticated public requests or regular user requests are rejected immediately with **`401 Unauthorized`** or **`403 Forbidden`**.
+
+3. **Zero Password Leakage:**
+   - Password hashes are **never returned** by `/api/admin/users` or any user querying endpoint. Column projection explicitly sanitizes and redacts credential fields.
+   - User passwords in `newgram.db` are hashed using cryptographic **Salted SHA-256** digests.
+
+4. **Hardened Admin Gate (`/admin`):**
+   - Removed any hardcoded credential pre-fills and removed 1-click bypass buttons.
+   - Requires cryptographic session token verification via `/api/admin/verify`.
+   - Admin sessions feature Single Sign-On (SSO): logging in as `admin` on the main NewGram portal unlocks the `/admin` portal simultaneously.
+
+---
+
+## 🌟 Core Application Features
+
+### 1. 📸 Visual Social Feed & Interactive Cards
+- **High-Contrast Photography**: Optimized edge-to-edge layout with location metadata and ambient tags.
+- **Double-Tap to Like**: Instant heart pop-up animation and real-time like counter synchronization.
+- **In-Feed Quick Composer**: Post moments, thoughts, custom photo URLs, and music tags (`🎵 Track Title`) directly from the top of the feed without opening modals.
+- **Feed Subtabs**: Toggle seamlessly between **"All Visuals"** and **"Following"** feed streams.
+- **Inline Comments Drawer**: Expandable comment threads with instantaneous posting and timestamp formatting.
+
+### 2. 🎬 Full-Screen Vertical Reels
+- **Immersive Video/Visual Reels**: High-impact vertical format with smooth scrolling between creator moments.
+- **Keyboard & Navigation Controls**: Navigate effortlessly using `ArrowUp` / `ArrowDown` or `J` / `K` keys, or the floating control buttons.
+- **Interactive Audio**: Audio badge with mute/unmute simulation and sound waveform indicator.
+- **Reels Engagement**: Like counter, comments drawer, and direct creator follow button directly in the overlay.
+
+### 3. ⭕ Stories Carousel & Animated Story Viewer
+- Horizontal creator circles with gradient story rings and unread status.
+- **"+ Your Story"**: Quick story uploader with preset aesthetic images or custom photo URL.
+- **Immersive Viewer Modal**: Auto-advancing animated progress bar, creator avatar, timestamp, and captions.
+
+### 4. 🧭 Bento Grid Explore & Discovery Hub
+- **Bento Grid Layout**: Asymmetric, visually balanced grid featuring trending visual highlights.
+- **Daily Dialogue Poll**: Interactive community poll with live percentage calculation.
+- **Trending Hashtags**: Clickable hashtag pills (`#minimalism`, `#monochrome`, `#streetlife`, `#design`) that instantly filter the feed.
+- **Instant Search**: Real-time search by creator name, handle, or caption keywords.
+
+### 5. 💬 Direct Messaging & Chat System
+- **Split-Screen Chat Layout**: Conversation threads with unread counters, online status, and timestamp formatting.
+- **Continuous Auto-Reply Simulation**: Chat partners dynamically auto-reply to messages matching their persona and specialty, creating an engaging, living social environment.
+- **Floating Messages Dock**: Quick-access bottom dock showing unread message count.
+- **Quick Reactions**: Tap reaction emojis (`❤️`, `🔥`, `👏`, `✨`) to reply quickly.
+- **Creator Search & Shelf**: Search any creator in the network to start a new direct conversation.
+
+### 6. 👤 Creator Profiles & 3x3 Grid
+- Detailed profile showcase with cover photo, avatar, verified specialty badges, follower stats, and website links.
+- **Grid vs Feed Toggle**: Switch between classic **3x3 Photo Grid** (with hover stats for likes & comments) and full-card feed view.
+- **Followers & Following Modals**: Inspect network connections with interactive follow/unfollow buttons.
+- **Highlight Circles**: Curated visual collections (*Moments*, *Studio*, *Archive*).
+
+### 7. ⚙️ Settings Hub
+- **Edit Profile**: Update display name, bio (with 150-char counter), specialty badge, location, website, avatar URL, and cover image.
+- **Security**: Update password securely and toggle 2FA protection simulation.
+- **Privacy Controls**: Private account toggle, message request permissions, offensive comment filters, and activity status.
+- **Notification Preferences**: Pause all notifications, or customize likes, comments, and messages alerts.
+- **Appearance & Theme**: Instant toggle between **Obsidian Black Mode (OLED)** and **Pristine White Mode**, plus compact feed option.
+- **Data & Storage**: One-click **Download Your Information** export (structured JSON backup of all account records).
+
+### 8. 🛠️ Dedicated Admin Console (`/admin`)
+- **System Metrics Overview**: Live database size counter, total counts for users, posts, comments, likes, messages, and stories.
+- **User Management**: View all registered users, inspection modal, and one-click account deletion with cascade cleanup.
+- **Post Moderation**: View all community posts with full metadata and delete offensive content.
+- **Message & Comment Audit**: Live monitoring of discussions and comments.
+- **Direct SQL Terminal**: Execute ad-hoc queries directly against `newgram.db` with query execution timer and table output.
+- **Database Backup Export**: Authenticated JSON export of the entire database state.
+
+---
+
+## 📂 Project Directory Structure
+
+```text
+Social Media-CA/
+├── newgram.db            # SQLite database file (WAL mode)
+├── package.json          # Node dependencies & start scripts
+├── server.js             # Express API backend, auth middleware & routes
+├── db.js                 # SQLite schema initialization, table setups & seed data
+├── view-db.js            # CLI utility script to inspect database tables
+├── README.md             # Project documentation & credentials guide
+└── public/
+    ├── index.html        # Main NewGram social media application interface
+    ├── admin.html        # Dedicated Database & Admin Control Center
+    ├── style.css         # Complete Glassmorphism, Neumorphism & dark theme styles
+    └── app.js            # Frontend client-side state machine & API handlers
+```
+
+---
+
+## 🛠️ API Endpoints Summary
+
+### Authentication & Account
+- `POST /api/auth/register` — Register a new account
+- `POST /api/auth/login` — Log in as creator or master admin
+- `GET  /api/auth/me` — Verify current session user
+- `POST /api/auth/logout` — Terminate session
+
+### Social Interactions
+- `GET    /api/feed` — Get paginated/filtered feed posts
+- `POST   /api/posts` — Create a new post
+- `DELETE /api/posts/:id` — Delete user's own post
+- `POST   /api/posts/:id/like` — Toggle like state
+- `POST   /api/posts/:id/bookmark` — Toggle save/bookmark state
+- `POST   /api/posts/:id/comments` — Add comment to post
+- `GET    /api/stories` — Get active stories
+- `POST   /api/stories` — Publish a new story
+- `GET    /api/conversations` — Get chat threads
+- `POST   /api/messages` — Send direct message
+- `POST   /api/messages/reply` — Trigger automated partner reply
+
+### Admin Management *(Protected by `requireAdminAuth`)*
+- `POST /api/admin/login` — Authenticate master administrator
+- `GET  /api/admin/verify` — Validate active admin session token
+- `GET  /api/admin/overview` — System & database health metrics
+- `GET  /api/admin/users` — List all users (passwords redacted)
+- `DELETE /api/admin/users/:id` — Delete user and cascaded data
+- `GET  /api/admin/posts` — List all community posts
+- `DELETE /api/admin/posts/:id` — Delete any post as admin
+- `POST /api/admin/query` — Execute direct SQL query
+- `GET  /api/admin/export` — Download full database export archive
+
+---
+
+## 📄 License
+This project is open-source and free for educational and portfolio demonstration purposes.
+All visual photography assets are dynamically sourced from Unsplash with permissible licenses.

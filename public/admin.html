@@ -1,0 +1,1607 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <script>
+    (function() {
+      const saved = localStorage.getItem('admin_nm_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NewGram — Database & Admin Control Center</title>
+  <meta name="description" content="Live management dashboard and database viewer for NewGram social platform.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font-ui: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --font-brand: 'Playfair Display', Georgia, serif;
+
+      /* ==========================================================================
+         NEUMORPHISM (SOFT UI) DARK SYSTEM — MATTE GRAPHITE / SLATE
+         ========================================================================== */
+      --nm-bg: #1c1f26;
+      --nm-surface: #20242e;
+      --nm-surface-light: #252a36;
+      --nm-card: #1f232c;
+      --nm-inset-bg: #161920;
+
+      /* Realistic Soft Dual-Shadows for Dark Chassis */
+      --nm-shadow-dark: rgba(10, 11, 15, 0.85);
+      --nm-shadow-light: rgba(45, 52, 67, 0.55);
+      --nm-shadow-highlight: rgba(255, 255, 255, 0.04);
+
+      /* Extruded (Raised) Neumorphic Shadows */
+      --nm-raised-lg: 14px 14px 28px var(--nm-shadow-dark), -12px -12px 24px var(--nm-shadow-light);
+      --nm-raised: 8px 8px 18px var(--nm-shadow-dark), -7px -7px 16px var(--nm-shadow-light);
+      --nm-raised-sm: 4px 4px 10px var(--nm-shadow-dark), -4px -4px 10px var(--nm-shadow-light);
+      --nm-raised-xs: 2px 2px 5px var(--nm-shadow-dark), -2px -2px 5px var(--nm-shadow-light);
+
+      /* Recessed (Sunken / Inset) Neumorphic Shadows */
+      --nm-inset: inset 4px 4px 8px var(--nm-shadow-dark), inset -4px -4px 8px var(--nm-shadow-light);
+      --nm-inset-sm: inset 2px 2px 5px var(--nm-shadow-dark), inset -2px -2px 5px var(--nm-shadow-light);
+      --nm-inset-deep: inset 6px 6px 14px var(--nm-shadow-dark), inset -5px -5px 12px var(--nm-shadow-light);
+
+      /* Typography & Accents */
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+
+      --accent-cyan: #38bdf8;
+      --accent-cyan-glow: 0 0 16px rgba(56, 189, 248, 0.35);
+      --accent-emerald: #10b981;
+      --accent-emerald-glow: 0 0 14px rgba(16, 185, 129, 0.4);
+      --danger: #f43f5e;
+      --warning: #f59e0b;
+      --info: #818cf8;
+
+      --border-bevel: 1px solid rgba(255, 255, 255, 0.05);
+      --border-subtle: rgba(255, 255, 255, 0.03);
+
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-xl: 28px;
+      --radius-full: 9999px;
+    }
+
+    /* ==========================================================================
+       NEUMORPHISM (SOFT UI) LIGHT SYSTEM — PORCELAIN / CLOUD GREY
+       ========================================================================== */
+    [data-theme="light"] {
+      --nm-bg: #e6ecf5;
+      --nm-surface: #ebf1fa;
+      --nm-surface-light: #f3f7fd;
+      --nm-card: #e8edf6;
+      --nm-inset-bg: #dbe2ed;
+
+      --nm-shadow-dark: rgba(166, 180, 200, 0.7);
+      --nm-shadow-light: rgba(255, 255, 255, 0.95);
+      --nm-shadow-highlight: rgba(255, 255, 255, 0.8);
+
+      --nm-raised-lg: 14px 14px 28px var(--nm-shadow-dark), -12px -12px 24px var(--nm-shadow-light);
+      --nm-raised: 8px 8px 18px var(--nm-shadow-dark), -7px -7px 16px var(--nm-shadow-light);
+      --nm-raised-sm: 4px 4px 10px var(--nm-shadow-dark), -4px -4px 10px var(--nm-shadow-light);
+      --nm-raised-xs: 2px 2px 5px var(--nm-shadow-dark), -2px -2px 5px var(--nm-shadow-light);
+
+      --nm-inset: inset 4px 4px 8px var(--nm-shadow-dark), inset -4px -4px 8px var(--nm-shadow-light);
+      --nm-inset-sm: inset 2px 2px 5px var(--nm-shadow-dark), inset -2px -2px 5px var(--nm-shadow-light);
+      --nm-inset-deep: inset 6px 6px 14px var(--nm-shadow-dark), inset -5px -5px 12px var(--nm-shadow-light);
+
+      --text-primary: #1e293b;
+      --text-secondary: #475569;
+      --text-muted: #94a3b8;
+
+      --border-bevel: 1px solid rgba(255, 255, 255, 0.75);
+      --border-subtle: rgba(166, 180, 200, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--nm-bg);
+      color: var(--text-primary);
+      font-family: var(--font-ui);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* Neumorphic Inset Scrollbars */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--nm-inset-bg);
+      box-shadow: var(--nm-inset-sm);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--nm-surface);
+      border-radius: var(--radius-full);
+      box-shadow: var(--nm-raised-xs);
+    }
+
+    /* ==========================================================================
+       1. AUTH GATE OVERLAY (NEUMORPHIC MODAL VAULT)
+       ========================================================================== */
+    .admin-gate-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 12, 17, 0.75);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 20px;
+    }
+
+    .admin-gate-overlay.hidden {
+      display: none !important;
+    }
+
+    .admin-gate-card {
+      background: var(--nm-card);
+      border-radius: var(--radius-xl);
+      width: 100%;
+      max-width: 440px;
+      padding: 36px 32px;
+      box-shadow: var(--nm-raised-lg);
+      border: var(--border-bevel);
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      position: relative;
+    }
+
+    .gate-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 12px;
+    }
+
+    .gate-logo-badge {
+      width: 54px;
+      height: 54px;
+      background: var(--nm-surface);
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--nm-raised);
+      border: var(--border-bevel);
+    }
+
+    .gate-logo-badge svg path {
+      fill: var(--text-primary);
+    }
+
+    .gate-title {
+      font-family: var(--font-brand);
+      font-size: 1.55rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+    }
+
+    .gate-subtitle {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    .gate-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .gate-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .gate-group label {
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .gate-group input {
+      background: var(--nm-inset-bg);
+      box-shadow: var(--nm-inset);
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      color: var(--text-primary);
+      font-family: var(--font-ui);
+      font-size: 0.92rem;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .gate-group input:focus {
+      box-shadow: var(--nm-inset), 0 0 0 2px var(--accent-cyan);
+    }
+
+    .gate-btn-submit {
+      margin-top: 8px;
+      background: linear-gradient(135deg, var(--nm-surface-light), var(--nm-surface));
+      color: var(--accent-cyan);
+      box-shadow: var(--nm-raised-sm);
+      border: var(--border-bevel);
+      border-radius: var(--radius-md);
+      padding: 13px;
+      font-weight: 800;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+      letter-spacing: 0.02em;
+    }
+
+    .gate-btn-submit:hover {
+      box-shadow: var(--nm-raised);
+      transform: translateY(-1px);
+    }
+
+    .gate-btn-submit:active {
+      box-shadow: var(--nm-inset-sm);
+      transform: translateY(1px);
+    }
+
+    .gate-quick-box {
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .gate-quick-btn {
+      background: var(--nm-surface);
+      box-shadow: var(--nm-raised-xs);
+      border: var(--border-bevel);
+      border-radius: var(--radius-md);
+      color: var(--text-secondary);
+      padding: 10px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    .gate-quick-btn:hover {
+      color: var(--text-primary);
+      box-shadow: var(--nm-raised-sm);
+    }
+
+    .gate-quick-btn:active {
+      box-shadow: var(--nm-inset-sm);
+    }
+
+    .gate-error-banner {
+      background: rgba(244, 63, 94, 0.12);
+      border: 1px solid rgba(244, 63, 94, 0.35);
+      color: #fb7185;
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+      font-size: 0.82rem;
+      box-shadow: var(--nm-inset-sm);
+    }
+
+    .gate-error-banner.hidden {
+      display: none;
+    }
+
+    /* ==========================================================================
+       2. TOP NAVBAR (RAISED NEUMORPHIC CONSOLE)
+       ========================================================================== */
+    .admin-navbar {
+      background: var(--nm-bg);
+      border-bottom: var(--border-bevel);
+      box-shadow: 0 10px 25px var(--nm-shadow-dark);
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .navbar-brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-n-badge {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: var(--nm-surface);
+      box-shadow: var(--nm-raised-sm);
+      border: var(--border-bevel);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand-n-badge svg path {
+      fill: var(--text-primary);
+    }
+
+    .navbar-title-group h1 {
+      font-family: var(--font-brand);
+      font-size: 1.25rem;
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--text-primary);
+      letter-spacing: -0.01em;
+    }
+
+    .navbar-subtitle {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+    }
+
+    .navbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .db-status-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--nm-inset-bg);
+      box-shadow: var(--nm-inset-sm);
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      font-weight: 600;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: var(--radius-full);
+      background: var(--accent-emerald);
+      box-shadow: var(--accent-emerald-glow);
+    }
+
+    .btn-nav-action {
+      background: var(--nm-surface);
+      box-shadow: var(--nm-raised-xs);
+      border: var(--border-bevel);
+      border-radius: var(--radius-md);
+      color: var(--text-primary);
+      padding: 8px 14px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+    }
+
+    .btn-nav-action:hover {
+      box-shadow: var(--nm-raised-sm);
+      transform: translateY(-1px);
+      color: var(--accent-cyan);
+    }
+
+    .btn-nav-action:active {
+      box-shadow: var(--nm-inset-sm);
+      transform: translateY(1px);
+    }
+
+    .btn-nav-action.danger {
+      color: #f87171;
+    }
+
+    .btn-nav-action.danger:hover {
+      color: #ff4d6d;
+    }
+
+    /* ==========================================================================
+       3. MAIN CONTAINER
+       ========================================================================== */
+    .admin-container {
+      flex: 1;
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 28px 24px 60px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* ==========================================================================
+       4. NEUMORPHIC TABS TRAY
+       ========================================================================== */
+    .admin-tabs-nav {
+      display: flex;
+      gap: 8px;
+      background: var(--nm-inset-bg);
+      box-shadow: var(--nm-inset);
+      border-radius: var(--radius-lg);
+      padding: 8px;
+      overflow-x: auto;
+    }
+
+    .admin-tab-btn {
+      background: transparent;
+      border: none;
+      border-radius: var(--radius-md);
+      color: var(--text-secondary);
+      font-family: var(--font-ui);
+      font-size: 0.86rem;
+      font-weight: 700;
+      padding: 9px 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+      white-space: nowrap;
+    }
+
+    .admin-tab-btn:hover {
+      color: var(--text-primary);
+    }
+
+    .admin-tab-btn.active {
+      color: var(--accent-cyan);
+      background: var(--nm-surface);
+      box-shadow: var(--nm-raised-sm);
+      font-weight: 800;
+    }
+
+    .tab-badge {
+      background: var(--nm-inset-bg);
+      box-shadow: var(--nm-inset-sm);
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: var(--text-secondary);
+    }
+
+    .admin-tab-btn.active .tab-badge {
+      color: var(--accent-cyan);
+    }
+
+    /* ==========================================================================
+       5. METRIC CARDS (OVERVIEW HUD MODULES)
+       ========================================================================== */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 20px;
+    }
+
+    .metric-card {
+      background: var(--nm-card);
+      box-shadow: var(--nm-raised);
+      border: var(--border-bevel);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
+    }
+
+    .metric-card:hover {
+      box-shadow: var(--nm-raised-lg);
+      transform: translateY(-3px);
+    }
+
+    .metric-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .metric-value {
+      font-size: 2.1rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+
+    .metric-sub {
+      font-size: 0.74rem;
+      color: var(--text-secondary);
+    }
+
+    /* ==========================================================================
+       6. DATA TABLE CARD (NEUMORPHIC CHASSIS)
+       ========================================================================== */
+    .data-table-card {
+      background: var(--nm-card);
+      box-shadow: var(--nm-raised);
+      border: var(--border-bevel);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .table-top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--nm-shadow-dark);
+      background: transparent;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .table-title-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .table-title-area h2 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      letter-spacing: -0.01em;
+    }
+
+    .table-search-input {
+      background: var(--nm-inset-bg);
+      box-shadow: var(--nm-inset);
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 9px 16px;
+      color: var(--text-primary);
+      font-family: var(--font-ui);
+      font-size: 0.85rem;
+      outline: none;
+      min-width: 260px;
+      transition: all 0.2s ease;
+    }
+
+    .table-search-input:focus {
+      box-shadow: var(--nm-inset), 0 0 0 2px var(--accent-cyan);
+    }
+
+    .table-responsive-wrapper {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.84rem;
+      text-align: left;
+    }
+
+    .admin-table th {
+      background: var(--nm-inset-bg);
+      color: var(--text-muted);
+      font-weight: 700;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 13px 18px;
+      border-bottom: 1px solid var(--nm-shadow-dark);
+      white-space: nowrap;
+    }
+
+    .admin-table td {
+      padding: 13px 18px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+      color: var(--text-secondary);
+      vertical-align: middle;
+      transition: background-color 0.15s;
+    }
+
+    .admin-table tr:hover td {
+      background: var(--nm-surface-light);
+      color: var(--text-primary);
+    }
+
+    /* TABLE ELEMENTS */
+    .cell-user {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .cell-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-full);
+      object-fit: cover;
+      background: var(--nm-surface);
+      box-shadow: var(--nm-raised-xs);
+    }
+
+    .cell-user-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cell-user-name {
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .cell-user-handle {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+    }
+
+    .mono-pill {
+      font-family: var(--font-mono);
+      background: var(--nm-inset-bg);
+      box-shadow: var(--nm-inset-sm);
+      border: none;
+      padding: 4px 9px;
+      border-radius: 6px;
+      font-size: 0.74rem;
+      color: var(--accent-cyan);
+      display: inline-block;
+      max-width: 240px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .badge-chip {
+      background: var(--nm-surface);
+      box-shadow: var(--nm-raised-xs);
+      border: var(--border-bevel);
+      padding: 3px 9px;
+      border-radius: var(--radius-full);
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: var(--text-secondary);
+    }
+
+    .btn-row-action {
+      background: var(--nm-surface);
+      box-shadow: var(--nm-raised-xs);
+      border: var(--border-bevel);
+      border-radius: 6px;
+      padding: 5px 10px;
+      color: var(--text-secondary);
+      font-size: 0.74rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-weight: 600;
+    }
+
+    .btn-row-action:hover {
+      box-shadow: var(--nm-raised-sm);
+      color: var(--text-primary);
+    }
+
+    .btn-row-action:active {
+      box-shadow: var(--nm-inset-sm);
+    }
+
+    .btn-row-action.delete:hover {
+      color: var(--danger);
+    }
+
+    .cell-post-thumb {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      object-fit: cover;
+      background: var(--nm-surface);
+      box-shadow: var(--nm-raised-xs);
+    }
+
+    /* ==========================================================================
+       7. SQL CONSOLE (DEEP RECESSED WORKSTATION)
+       ========================================================================== */
+    .sql-console-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding: 22px;
+    }
+
+    .sql-editor {
+      width: 100%;
+      height: 130px;
+      background: var(--nm-inset-bg);
+      box-shadow: var(--nm-inset-deep);
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      color: var(--accent-cyan);
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      outline: none;
+      resize: vertical;
+      transition: all 0.2s ease;
+    }
+
+    .sql-editor:focus {
+      box-shadow: var(--nm-inset-deep), 0 0 0 2px var(--accent-cyan);
+    }
+
+    .sql-actions-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .sql-quick-pill {
+      background: var(--nm-surface);
+      box-shadow: var(--nm-raised-xs);
+      border: var(--border-bevel);
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .sql-quick-pill:hover {
+      color: var(--text-primary);
+      box-shadow: var(--nm-raised-sm);
+    }
+
+    .sql-quick-pill:active {
+      box-shadow: var(--nm-inset-sm);
+    }
+
+    .sql-result-box {
+      margin-top: 10px;
+      background: var(--nm-inset-bg);
+      box-shadow: var(--nm-inset-deep);
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 16px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      max-height: 380px;
+      overflow: auto;
+      color: #e2e8f0;
+      white-space: pre-wrap;
+    }
+
+    /* EMPTY / LOADING */
+    .loading-row, .empty-row {
+      text-align: center;
+      padding: 36px;
+      color: var(--text-muted);
+    }
+
+    .tab-content-panel.hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. ADMIN AUTH LOGIN OVERLAY -->
+  <div class="admin-gate-overlay" id="admin-gate-overlay">
+    <div class="admin-gate-card">
+      <div class="gate-header">
+        <div class="gate-logo-badge">
+          <svg viewBox="0 0 32 32" fill="none" width="26" height="26">
+            <path d="M8.5 23.5V8.5H12L20 19.5V8.5H23.5V23.5H20L12 12.5V23.5H8.5Z" fill="#000" />
+          </svg>
+        </div>
+        <h2 class="gate-title">NewGram Admin</h2>
+        <p class="gate-subtitle">Database Management & Control Console</p>
+      </div>
+
+      <div class="gate-error-banner hidden" id="gate-error-banner"></div>
+
+      <form class="gate-form" id="admin-gate-form">
+        <div class="gate-group">
+          <label for="admin-user">Admin Username</label>
+          <input type="text" id="admin-user" placeholder="Enter admin username" required autocomplete="username">
+        </div>
+        <div class="gate-group">
+          <label for="admin-pass">Admin Password</label>
+          <input type="password" id="admin-pass" placeholder="Enter admin password" required autocomplete="current-password">
+        </div>
+        <button type="submit" class="gate-btn-submit" id="btn-admin-login">Unlock Database Console</button>
+      </form>
+
+      <div class="gate-quick-box">
+        <button type="button" class="gate-quick-btn" onclick="window.location.href='/'">
+          ← Back to NewGram
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. ADMIN DASHBOARD HEADER -->
+  <header class="admin-navbar">
+    <div class="navbar-brand-wrap">
+      <div class="brand-n-badge">
+        <svg viewBox="0 0 32 32" fill="none" width="20" height="20">
+          <path d="M8.5 23.5V8.5H12L20 19.5V8.5H23.5V23.5H20L12 12.5V23.5H8.5Z" fill="#000" />
+        </svg>
+      </div>
+      <div class="navbar-title-group">
+        <h1>NewGram Database Console</h1>
+        <div class="navbar-subtitle">Live SQLite Controller • newgram.db</div>
+      </div>
+    </div>
+
+    <div class="navbar-actions">
+      <div class="db-status-chip">
+        <div class="status-dot"></div>
+        <span id="header-db-size">Size: Loading...</span>
+      </div>
+      <button class="btn-nav-action" id="btn-toggle-nm-theme" title="Toggle Neumorphic Light/Dark Theme">
+        <span id="nm-theme-icon">☀️</span> <span id="nm-theme-text">Light Neumorph</span>
+      </button>
+      <a href="/" class="btn-nav-action" title="Open Public Website">
+        <span>Live App</span> ↗
+      </a>
+      <button class="btn-nav-action" id="btn-admin-export" title="Download Complete Database JSON">
+        <span>Backup JSON</span> 💾
+      </button>
+      <button class="btn-nav-action danger" id="btn-admin-logout" title="Log Out Admin">
+        <span>Logout</span> ✕
+      </button>
+    </div>
+  </header>
+
+  <!-- 3. DASHBOARD MAIN CANVAS -->
+  <main class="admin-container">
+
+    <!-- TABS BAR -->
+    <nav class="admin-tabs-nav" aria-label="Database sections">
+      <button class="admin-tab-btn active" data-tab="overview">
+        <span>📊 Overview</span>
+      </button>
+      <button class="admin-tab-btn" data-tab="users">
+        <span>👥 Users & Credentials</span>
+        <span class="tab-badge" id="badge-users-count">0</span>
+      </button>
+      <button class="admin-tab-btn" data-tab="posts">
+        <span>📸 Posts & Media</span>
+        <span class="tab-badge" id="badge-posts-count">0</span>
+      </button>
+      <button class="admin-tab-btn" data-tab="messages">
+        <span>💬 Direct Messages</span>
+        <span class="tab-badge" id="badge-messages-count">0</span>
+      </button>
+      <button class="admin-tab-btn" data-tab="comments">
+        <span>💭 Comments</span>
+        <span class="tab-badge" id="badge-comments-count">0</span>
+      </button>
+      <button class="admin-tab-btn" data-tab="sql">
+        <span>💻 SQL Console</span>
+      </button>
+    </nav>
+
+    <!-- TAB 1: OVERVIEW -->
+    <section class="tab-content-panel" id="panel-overview">
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-header">
+            <span>Total Accounts</span>
+            <span>👥</span>
+          </div>
+          <div class="metric-value" id="stat-total-users">-</div>
+          <div class="metric-sub">Registered creators</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-header">
+            <span>Published Posts</span>
+            <span>📸</span>
+          </div>
+          <div class="metric-value" id="stat-total-posts">-</div>
+          <div class="metric-sub">Photos & visual stories</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-header">
+            <span>Messages Sent</span>
+            <span>💬</span>
+          </div>
+          <div class="metric-value" id="stat-total-messages">-</div>
+          <div class="metric-sub">Direct conversations</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-header">
+            <span>Interactions</span>
+            <span>❤️</span>
+          </div>
+          <div class="metric-value" id="stat-total-likes">-</div>
+          <div class="metric-sub">Likes & feedback</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-header">
+            <span>Database File</span>
+            <span>🗄️</span>
+          </div>
+          <div class="metric-value" id="stat-db-size">-</div>
+          <div class="metric-sub">SQLite storage size</div>
+        </div>
+      </div>
+
+      <!-- RECENT REGISTRATIONS PREVIEW -->
+      <div class="data-table-card" style="margin-top: 16px;">
+        <div class="table-top-bar">
+          <div class="table-title-area">
+            <h2>Recent Creators & Activity</h2>
+          </div>
+          <button class="btn-nav-action" onclick="switchAdminTab('users')">View All Users →</button>
+        </div>
+        <div class="table-responsive-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Creator</th>
+                <th>Handle</th>
+                <th>Joined</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="overview-recent-users">
+              <tr><td colspan="5" class="loading-row">Loading overview...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: USERS & PASSWORDS -->
+    <section class="tab-content-panel hidden" id="panel-users">
+      <div class="data-table-card">
+        <div class="table-top-bar">
+          <div class="table-title-area">
+            <h2>Users & Authentication Credentials</h2>
+          </div>
+          <input type="text" class="table-search-input" id="search-users" placeholder="Filter by username, name, handle...">
+        </div>
+        <div class="table-responsive-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>User / Avatar</th>
+                <th>Handle</th>
+                <th>Password Hash / Demo Pass</th>
+                <th>Badge</th>
+                <th>Location</th>
+                <th>Stats</th>
+                <th>Created</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="table-users-body">
+              <tr><td colspan="9" class="loading-row">Fetching users from SQLite...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: POSTS -->
+    <section class="tab-content-panel hidden" id="panel-posts">
+      <div class="data-table-card">
+        <div class="table-top-bar">
+          <div class="table-title-area">
+            <h2>Published Posts & Photos</h2>
+          </div>
+          <input type="text" class="table-search-input" id="search-posts" placeholder="Search caption, author, tags...">
+        </div>
+        <div class="table-responsive-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Media</th>
+                <th>Author</th>
+                <th>Caption & Text</th>
+                <th>Engagement</th>
+                <th>Posted Date</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="table-posts-body">
+              <tr><td colspan="7" class="loading-row">Fetching posts from SQLite...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: MESSAGES -->
+    <section class="tab-content-panel hidden" id="panel-messages">
+      <div class="data-table-card">
+        <div class="table-top-bar">
+          <div class="table-title-area">
+            <h2>Direct Messages & Chats Stream</h2>
+          </div>
+          <input type="text" class="table-search-input" id="search-messages" placeholder="Filter message content or sender...">
+        </div>
+        <div class="table-responsive-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Sender</th>
+                <th>Receiver</th>
+                <th>Message Content</th>
+                <th>Status</th>
+                <th>Time</th>
+              </tr>
+            </thead>
+            <tbody id="table-messages-body">
+              <tr><td colspan="6" class="loading-row">Fetching messages from SQLite...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: COMMENTS -->
+    <section class="tab-content-panel hidden" id="panel-comments">
+      <div class="data-table-card">
+        <div class="table-top-bar">
+          <div class="table-title-area">
+            <h2>Post Comments</h2>
+          </div>
+          <input type="text" class="table-search-input" id="search-comments" placeholder="Filter comment text or author...">
+        </div>
+        <div class="table-responsive-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Author</th>
+                <th>Post ID / Context</th>
+                <th>Comment Text</th>
+                <th>Created At</th>
+              </tr>
+            </thead>
+            <tbody id="table-comments-body">
+              <tr><td colspan="5" class="loading-row">Fetching comments from SQLite...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 6: SQL CONSOLE -->
+    <section class="tab-content-panel hidden" id="panel-sql">
+      <div class="data-table-card">
+        <div class="table-top-bar">
+          <div class="table-title-area">
+            <h2>Direct SQLite Console Query</h2>
+          </div>
+        </div>
+        <div class="sql-console-wrap">
+          <textarea class="sql-editor" id="sql-query-input" placeholder="SELECT * FROM users LIMIT 10;">SELECT id, username, handle, password, created_at FROM users;</textarea>
+          <div class="sql-actions-row">
+            <button class="gate-btn-submit" style="padding: 7px 18px;" id="btn-execute-sql">Execute Query</button>
+            <span class="sql-quick-pill" onclick="setSqlQuery('SELECT * FROM users;')">Users</span>
+            <span class="sql-quick-pill" onclick="setSqlQuery('SELECT * FROM posts ORDER BY id DESC LIMIT 10;')">Recent Posts</span>
+            <span class="sql-quick-pill" onclick="setSqlQuery('SELECT * FROM messages ORDER BY id DESC LIMIT 10;')">Recent Chats</span>
+            <span class="sql-quick-pill" onclick="setSqlQuery('SELECT name FROM sqlite_master WHERE type=\'table\';')">List Tables</span>
+          </div>
+          <div class="sql-result-box" id="sql-results">Execute query above to see raw database records...</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // State
+    const adminState = {
+      token: localStorage.getItem('newgram_admin_token') || null,
+      activeTab: 'overview',
+      data: {
+        users: [],
+        posts: [],
+        messages: [],
+        comments: [],
+        overview: null
+      }
+    };
+
+    // DOM references
+    const gateOverlay = document.getElementById('admin-gate-overlay');
+    const gateForm = document.getElementById('admin-gate-form');
+    const gateError = document.getElementById('gate-error-banner');
+    const btnAdminLogin = document.getElementById('btn-admin-login');
+    const btnAdminLogout = document.getElementById('btn-admin-logout');
+    const btnAdminExport = document.getElementById('btn-admin-export');
+    const btnToggleNmTheme = document.getElementById('btn-toggle-nm-theme');
+    const nmThemeIcon = document.getElementById('nm-theme-icon');
+    const nmThemeText = document.getElementById('nm-theme-text');
+
+    function syncNmThemeUI(theme) {
+      if (nmThemeIcon && nmThemeText) {
+        if (theme === 'light') {
+          nmThemeIcon.textContent = '🌑';
+          nmThemeText.textContent = 'Dark Neumorph';
+        } else {
+          nmThemeIcon.textContent = '☀️';
+          nmThemeText.textContent = 'Light Neumorph';
+        }
+      }
+    }
+
+    function setNmTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('admin_nm_theme', theme);
+      syncNmThemeUI(theme);
+    }
+
+    const initialNmTheme = localStorage.getItem('admin_nm_theme') || 'dark';
+    syncNmThemeUI(initialNmTheme);
+
+    if (btnToggleNmTheme) {
+      btnToggleNmTheme.addEventListener('click', () => {
+        const cur = document.documentElement.getAttribute('data-theme') || 'dark';
+        setNmTheme(cur === 'dark' ? 'light' : 'dark');
+      });
+    }
+
+    async function adminApi(endpoint, options = {}) {
+      const res = await fetch(endpoint, {
+        ...options,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${adminState.token || ''}`,
+          ...(options.headers || {})
+        }
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || `HTTP ${res.status}`);
+      }
+      return res.json();
+    }
+
+    // Init check with server verification
+    async function checkGate() {
+      if (adminState.token) {
+        try {
+          const verify = await fetch('/api/admin/verify', {
+            headers: { 'Authorization': `Bearer ${adminState.token}` }
+          });
+          if (verify.ok) {
+            gateOverlay.classList.add('hidden');
+            loadAllData();
+            return;
+          }
+        } catch (e) {}
+      }
+      adminState.token = null;
+      localStorage.removeItem('newgram_admin_token');
+      gateOverlay.classList.remove('hidden');
+    }
+
+    // Login handlers
+    gateForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const user = document.getElementById('admin-user').value.trim();
+      const pass = document.getElementById('admin-pass').value;
+      await performAdminLogin(user, pass);
+    });
+
+    if (btnAdminExport) {
+      btnAdminExport.addEventListener('click', () => {
+        if (!adminState.token) {
+          alert('Admin session required');
+          return;
+        }
+        window.open(`/api/admin/export?token=${encodeURIComponent(adminState.token)}`, '_blank');
+      });
+    }
+
+    async function performAdminLogin(username, password) {
+      try {
+        btnAdminLogin.disabled = true;
+        btnAdminLogin.textContent = 'Authenticating...';
+        gateError.classList.add('hidden');
+
+        const res = await fetch('/api/admin/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Authentication failed');
+
+        adminState.token = data.token;
+        localStorage.setItem('newgram_admin_token', data.token);
+        gateOverlay.classList.add('hidden');
+        loadAllData();
+      } catch (err) {
+        gateError.textContent = err.message;
+        gateError.classList.remove('hidden');
+      } finally {
+        btnAdminLogin.disabled = false;
+        btnAdminLogin.textContent = 'Unlock Database Console';
+      }
+    }
+
+    btnAdminLogout.addEventListener('click', () => {
+      adminState.token = null;
+      localStorage.removeItem('newgram_admin_token');
+      gateOverlay.classList.remove('hidden');
+    });
+
+    // Tab Switching
+    document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tab = btn.dataset.tab;
+        switchAdminTab(tab);
+      });
+    });
+
+    function switchAdminTab(tab) {
+      adminState.activeTab = tab;
+      document.querySelectorAll('.admin-tab-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.tab === tab);
+      });
+      document.querySelectorAll('.tab-content-panel').forEach(p => {
+        p.classList.toggle('hidden', p.id !== `panel-${tab}`);
+      });
+    }
+
+    // Load data
+    async function loadAllData() {
+      await Promise.all([
+        loadOverview(),
+        loadUsers(),
+        loadPosts(),
+        loadMessages(),
+        loadComments()
+      ]);
+    }
+
+    async function loadOverview() {
+      try {
+        const res = await adminApi('/api/admin/overview');
+        adminState.data.overview = res;
+
+        document.getElementById('stat-total-users').textContent = res.metrics.totalUsers;
+        document.getElementById('stat-total-posts').textContent = res.metrics.totalPosts;
+        document.getElementById('stat-total-messages').textContent = res.metrics.totalMessages;
+        document.getElementById('stat-total-likes').textContent = res.metrics.totalLikes;
+        document.getElementById('stat-db-size').textContent = res.metrics.dbSizeFormatted;
+        document.getElementById('header-db-size').textContent = `Size: ${res.metrics.dbSizeFormatted}`;
+
+        // Recent users
+        const tbody = document.getElementById('overview-recent-users');
+        tbody.innerHTML = res.recentUsers.map(u => `
+          <tr>
+            <td>#${u.id}</td>
+            <td>
+              <div class="cell-user">
+                <img src="${u.avatar}" class="cell-avatar" alt="${u.name}">
+                <span class="cell-user-name">${escapeHtml(u.name)}</span>
+              </div>
+            </td>
+            <td><span class="mono-pill">${escapeHtml(u.handle)}</span></td>
+            <td>${u.created_at || 'Recently'}</td>
+            <td>
+              <button class="btn-row-action" onclick="switchAdminTab('users')">Manage</button>
+            </td>
+          </tr>
+        `).join('');
+      } catch (err) {
+        console.error('Overview error:', err);
+      }
+    }
+
+    async function loadUsers() {
+      try {
+        const res = await adminApi('/api/admin/users');
+        adminState.data.users = res.users || [];
+        document.getElementById('badge-users-count').textContent = adminState.data.users.length;
+        renderUsersTable(adminState.data.users);
+      } catch (err) {}
+    }
+
+    function renderUsersTable(users) {
+      const tbody = document.getElementById('table-users-body');
+      if (users.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="9" class="empty-row">No users found.</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = users.map(u => `
+        <tr id="row-user-${u.id}">
+          <td><strong>#${u.id}</strong></td>
+          <td>
+            <div class="cell-user">
+              <img src="${u.avatar}" class="cell-avatar" alt="${u.name}">
+              <div class="cell-user-info">
+                <span class="cell-user-name">${escapeHtml(u.name)}</span>
+                <span class="cell-user-handle">${escapeHtml(u.email || u.username)}</span>
+              </div>
+            </div>
+          </td>
+          <td><span class="mono-pill">${escapeHtml(u.handle)}</span></td>
+          <td>
+            <div>
+              <span class="mono-pill" style="color: #10b981; font-size: 0.72rem;">●●●●●●●● (Protected)</span>
+              <br><small style="color: var(--text-muted); font-size: 0.65rem;">Salted SHA-256 Digest</small>
+            </div>
+          </td>
+          <td><span class="badge-chip">${u.badge || 'CREATOR'}</span></td>
+          <td>${escapeHtml(u.location || 'Global')}</td>
+          <td>
+            <small>Posts: <b>${u.posts_count || 0}</b> | Followers: <b>${u.followers_count || 0}</b></small>
+          </td>
+          <td><small>${u.created_at || '2026'}</small></td>
+          <td>
+            <button class="btn-row-action delete" onclick="deleteUserRow(${u.id})">Delete</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    async function deleteUserRow(userId) {
+      if (!confirm(`Are you sure you want to delete user #${userId}? All their posts and messages will be removed.`)) return;
+      try {
+        await adminApi(`/api/admin/users/${userId}`, { method: 'DELETE' });
+        document.getElementById(`row-user-${userId}`)?.remove();
+        loadOverview();
+      } catch (err) {
+        alert(err.message);
+      }
+    }
+
+    async function loadPosts() {
+      try {
+        const res = await adminApi('/api/admin/posts');
+        adminState.data.posts = res.posts || [];
+        document.getElementById('badge-posts-count').textContent = adminState.data.posts.length;
+        renderPostsTable(adminState.data.posts);
+      } catch (err) {}
+    }
+
+    function renderPostsTable(posts) {
+      const tbody = document.getElementById('table-posts-body');
+      if (posts.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="empty-row">No posts found.</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = posts.map(p => `
+        <tr id="row-post-${p.id}">
+          <td><strong>#${p.id}</strong></td>
+          <td>
+            ${p.media_url ? `<img src="${p.media_url}" class="cell-post-thumb" alt="Post">` : '<span style="color: var(--text-muted);">Text only</span>'}
+          </td>
+          <td>
+            <div class="cell-user">
+              <img src="${p.author_avatar}" class="cell-avatar" style="width:24px;height:24px;">
+              <span>${escapeHtml(p.handle || p.username)}</span>
+            </div>
+          </td>
+          <td style="max-width: 320px;">
+            <div>${escapeHtml(p.content || '(No text)')}</div>
+            ${p.music_tag ? `<small style="color: #38bdf8;">${escapeHtml(p.music_tag)}</small>` : ''}
+          </td>
+          <td>
+            <small>❤️ ${p.likes_count || 0} | 💬 ${p.comments_count || 0}</small>
+          </td>
+          <td><small>${p.created_at || 'Recently'}</small></td>
+          <td>
+            <button class="btn-row-action delete" onclick="deletePostRow(${p.id})">Delete</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    async function deletePostRow(postId) {
+      if (!confirm(`Delete post #${postId}?`)) return;
+      try {
+        await adminApi(`/api/admin/posts/${postId}`, { method: 'DELETE' });
+        document.getElementById(`row-post-${postId}`)?.remove();
+        loadOverview();
+      } catch (err) {
+        alert(err.message);
+      }
+    }
+
+    async function loadMessages() {
+      try {
+        const res = await adminApi('/api/admin/messages');
+        adminState.data.messages = res.messages || [];
+        document.getElementById('badge-messages-count').textContent = adminState.data.messages.length;
+        renderMessagesTable(adminState.data.messages);
+      } catch (err) {}
+    }
+
+    function renderMessagesTable(messages) {
+      const tbody = document.getElementById('table-messages-body');
+      if (messages.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="empty-row">No messages found.</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = messages.map(m => `
+        <tr>
+          <td>#${m.id}</td>
+          <td>
+            <div class="cell-user">
+              <img src="${m.sender_avatar}" class="cell-avatar" style="width:22px;height:22px;">
+              <strong>${escapeHtml(m.sender_name)}</strong>
+            </div>
+          </td>
+          <td>
+            <div class="cell-user">
+              <img src="${m.receiver_avatar}" class="cell-avatar" style="width:22px;height:22px;">
+              <strong>${escapeHtml(m.receiver_name)}</strong>
+            </div>
+          </td>
+          <td style="max-width: 400px; color: var(--text-primary);">
+            ${escapeHtml(m.content)}
+          </td>
+          <td>
+            <span class="badge-chip" style="color: ${m.is_read ? '#10b981' : '#f59e0b'};">
+              ${m.is_read ? 'Read' : 'Unread'}
+            </span>
+          </td>
+          <td><small>${m.created_at || 'Recent'}</small></td>
+        </tr>
+      `).join('');
+    }
+
+    async function loadComments() {
+      try {
+        const res = await adminApi('/api/admin/comments');
+        adminState.data.comments = res.comments || [];
+        document.getElementById('badge-comments-count').textContent = adminState.data.comments.length;
+        renderCommentsTable(adminState.data.comments);
+      } catch (err) {}
+    }
+
+    function renderCommentsTable(comments) {
+      const tbody = document.getElementById('table-comments-body');
+      if (comments.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="empty-row">No comments found.</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = comments.map(c => `
+        <tr>
+          <td>#${c.id}</td>
+          <td>
+            <div class="cell-user">
+              <img src="${c.author_avatar}" class="cell-avatar" style="width:22px;height:22px;">
+              <span>${escapeHtml(c.author_name)}</span>
+            </div>
+          </td>
+          <td>
+            <small>On Post #${c.post_id}</small>
+          </td>
+          <td style="color: var(--text-primary); max-width: 380px;">
+            ${escapeHtml(c.content)}
+          </td>
+          <td><small>${c.created_at || 'Recent'}</small></td>
+        </tr>
+      `).join('');
+    }
+
+    // SQL Console
+    document.getElementById('btn-execute-sql').addEventListener('click', async () => {
+      const query = document.getElementById('sql-query-input').value.trim();
+      const output = document.getElementById('sql-results');
+      if (!query) return;
+
+      try {
+        output.textContent = 'Executing query on newgram.db...';
+        const res = await adminApi('/api/admin/query', {
+          method: 'POST',
+          body: JSON.stringify({ query })
+        });
+        output.textContent = JSON.stringify(res.rows || res.info, null, 2);
+      } catch (err) {
+        output.textContent = '❌ Query Error: ' + err.message;
+      }
+    });
+
+    function setSqlQuery(q) {
+      document.getElementById('sql-query-input').value = q;
+    }
+
+    // Search filters
+    document.getElementById('search-users')?.addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase().trim();
+      const filtered = adminState.data.users.filter(u => 
+        u.name.toLowerCase().includes(q) ||
+        u.username.toLowerCase().includes(q) ||
+        u.handle.toLowerCase().includes(q)
+      );
+      renderUsersTable(filtered);
+    });
+
+    document.getElementById('search-posts')?.addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase().trim();
+      const filtered = adminState.data.posts.filter(p => 
+        (p.content || '').toLowerCase().includes(q) ||
+        (p.author_name || '').toLowerCase().includes(q) ||
+        (p.username || '').toLowerCase().includes(q)
+      );
+      renderPostsTable(filtered);
+    });
+
+    document.getElementById('search-messages')?.addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase().trim();
+      const filtered = adminState.data.messages.filter(m => 
+        (m.content || '').toLowerCase().includes(q) ||
+        (m.sender_name || '').toLowerCase().includes(q) ||
+        (m.receiver_name || '').toLowerCase().includes(q)
+      );
+      renderMessagesTable(filtered);
+    });
+
+    document.getElementById('search-comments')?.addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase().trim();
+      const filtered = adminState.data.comments.filter(c => 
+        (c.content || '').toLowerCase().includes(q) ||
+        (c.author_name || '').toLowerCase().includes(q)
+      );
+      renderCommentsTable(filtered);
+    });
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // Start
+    checkGate();
+  </script>
+</body>
+</html>
